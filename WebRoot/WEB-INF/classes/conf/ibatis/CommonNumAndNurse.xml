@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+    <!-- 对象属性与表映射 -->
+    <resultMap class="com.model.CommonNumAndNurse" id="RM_CommonNumAndNurse">
+        <result property="id" column="Id"/>
+        <result property="commonNumber" column="Common_number"/>
+        <result property="nurseNumber" column="Nurse_number"/>
+        <result property="bigNurseNumber" column="Big_nurse_number"/>
+        <result property="createTime" column="Create_time"/>
+    </resultMap>
+    <!--设置where主键的查询条件 -->
+    <sql id="whereByCNNId">
+        <dynamic prepend=" where ">
+            <isPropertyAvailable property="id">
+                <isNotNull property="id" prepend=" and ">
+                    "Id" = #id#
+                </isNotNull>
+            </isPropertyAvailable>
+        </dynamic>
+    </sql>
+    <!--查询公共账号下的护士-->
+    <select id="selectNurseList" parameterClass="java.util.HashMap" resultMap="RM_AdmDepartment">
+        <![CDATA[select * from (select A.*,ROWNUM from (select E.* from  "t_common_num_and_nurse" R,"t_adm_employee" E WHERE R."Common_number"=#commonNumber# AND E."User_number"=R."Common_number"
+) A where ROWNUM < #rowNumEnd# ) where ROWNUM >= #rowNumStart# ]]>
+    </select>
+    <!--按页公共账号列表-->
+    <select id="selectCommonNumList"  parameterClass="java.util.HashMap" resultMap="RM_AdmDepartment">
+        <isNotEqual property="rowLength" compareValue="-1">
+            <![CDATA[select * from (SELECT E.*,ROWNUM FROM "t_adm_employee" E WHERE E."User_number" in
+            (SELECT D."Common_nurse_id" from "t_adm_department" D WHERE D."Inpatient_area_id" IN
+            (SELECT A."Area_direct_id" FROM "t_adm_inpatient_areas" A WHERE A."Big_nurse_id"=#bigNurseNum#)) AND ROWNUM < #rowNumEnd# ) where ROWNUM >= #rowNumStart#]]>
+        </isNotEqual>
+        <isEqual property="rowLength" compareValue="-1">
+            select * from "t_common_num_and_nurse"
+        </isEqual>
+    </select>
+   <!-- 为公共账号添加新的护士-->
+    <insert id="insertCommonNumAndNurse" parameterClass="com.model.CommonNumAndNurse">
+        <![CDATA[insert into "t_common_num_and_nurse"("Common_number","Nurse_number","Big_nurse_number","Create_time")
+       values(#commonNumber#,#nurseNumber#,#bigNurseNumber#,TO_DATE( #createTime#, 'SYYYY-MM-DD HH24:MI:SS'))]]>
+    </insert>
+    <!--删除-->
+    <delete id="deleteCommonNumAndNurse" parameterClass="com.model.CommonNumAndNurse">
+        <![CDATA[delete from "t_common_num_and_nurse"]]>
+        <include refid="whereByCNNId"/>
+    </delete>
+</sqlMap>

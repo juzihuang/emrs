@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+   "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+  <!-- 对象属性与表映射 -->
+  <resultMap class="com.model.BloodSugarRecord" id="RM_BloodSugarRecord">
+      <result property="id" column="id"/>
+      <result property="patient_id" column="patient_id"/>
+      <result property="date" column="date"/>
+      <result property="before_breakfast" column="before_breakfast"/>
+      <result property="after_breakfast" column="after_breakfast"/>
+      <result property="before_lunch" column="before_lunch"/>
+      <result property="after_lunch" column="after_lunch"/>
+      <result property="before_supper" column="before_supper"/>
+      <result property="after_supper" column="after_supper"/>
+      <result property="mark" column="mark"/>
+      <result property="doctor_id" column="doctor_id"/>
+      <result property="nurse_id" column="nurse_id"/>
+      
+  </resultMap>
+  <!--设置where主键的查询条件 -->
+  <sql id="whereByBloodSugarRecordId">
+     <dynamic prepend=" where ">
+       <isPropertyAvailable property="id">
+          <isNotNull property="id" prepend=" and ">
+            "id" = #id#
+          </isNotNull>
+       </isPropertyAvailable>
+     </dynamic>
+  </sql>
+  
+  <!--设置where病案号的查询条件 -->
+  <sql id="whereByBloodSugarRecordPatientId">
+     <dynamic prepend=" where ">
+       <isPropertyAvailable property="patient_id">
+          <isNotNull property="patient_id" prepend=" and ">
+            "patient_id" = #patient_id#
+          </isNotNull>
+       </isPropertyAvailable>
+     </dynamic>
+  </sql>
+<!-- 查询血糖监测记录(单条记录,按病案号)-->
+<select id="selectBloodSugarRecord" parameterClass="com.model.BloodSugarRecord" resultMap="RM_BloodSugarRecord">
+    <![CDATA[select * from  "t_blood_sugar_record"]]>
+      <include refid="whereByBloodSugarRecordPatientId"/>
+</select>
+<!-- 模糊查询血糖含量表(按病案号)-->
+<!-- <select id="selectBloodSugarRecordList" parameterClass="com.model.BloodSugarRecord" resultMap="RM_BloodSugarRecord">
+    <![CDATA[select * from  "t_blood_sugar_record"]]>
+    <include refid="whereByBloodSugarRecordPatientId"/>
+</select> -->
+<!-- 分页查询血糖含量 -->
+ <select id="selectBloodSugarRecordByPage" parameterClass="java.util.HashMap" resultMap="RM_BloodSugarRecord">
+     <isNotEqual property="rowLength" compareValue="-1">
+     <![CDATA[select * from (select A.*,ROWNUM RN from (select E.* from "t_blood_sugar_record" E WHERE E."patient_id"=#patient_id#) A where ROWNUM < #rowNumEnd# ) where RN >= #rowNumStart#]]>
+     </isNotEqual>
+     <isEqual property="rowLength" compareValue="-1">
+         select * from "t_blood_sugar_record"
+     </isEqual>
+</select> 
+<!--添加新病区  -->
+  <insert id="insertBloodSugarRecord" parameterClass="com.model.BloodSugarRecord">
+    <![CDATA[insert into "t_blood_sugar_record"("patient_id","date","before_breakfast","after_breakfast","before_lunch","after_lunch","before_supper","after_supper","mark","doctor_id","nurse_id")
+       values(#patient_id#,TO_DATE(#date#, 'SYYYY-MM-DD'),#before_breakfast#,#after_breakfast#,#before_lunch#,#after_lunch#,#before_supper#,#after_supper#,#mark#,#doctor_id#,#nurse_id#)]]>
+  </insert>
+<!--更新病区信息  -->
+ <update id="updateBloodSugarRecord" parameterClass="com.model.BloodSugarRecord">
+     update "t_blood_sugar_record" 
+     <dynamic prepend="set">
+      <isPropertyAvailable property="patient_id">
+          <isNotNull property="patient_id" prepend=" ,">
+              "patient_id"=#patient_id#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="date">
+          <isNotNull property="date" prepend=" ,">
+              "date"=TO_DATE(#date#, 'SYYYY-MM-DD')
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="before_breakfast">
+          <isNotNull property="before_breakfast" prepend=" ,">
+              "before_breakfast"=#before_breakfast#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="after_breakfast">
+          <isNotNull property="after_breakfast" prepend=" ,">
+              "after_breakfast"=#after_breakfast#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="before_lunch">
+          <isNotNull property="before_lunch" prepend=" ,">
+              "before_lunch"=#before_lunch#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="after_lunch">
+          <isNotNull property="after_lunch" prepend=" ,">
+              "after_lunch"=#after_lunch#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="before_supper">
+          <isNotNull property="before_supper" prepend=" ,">
+              "before_supper"=#before_supper#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="after_supper">
+          <isNotNull property="after_supper" prepend=" ,">
+              "after_supper"=#after_supper#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="mark">
+          <isNotNull property="mark" prepend=" ,">
+              "mark"=#mark#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="doctor_id">
+          <isNotNull property="doctor_id" prepend=" ,">
+              "doctor_id"=#doctor_id#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="nurse_id">
+          <isNotNull property="nurse_id" prepend=" ,">
+              "nurse_id"=#nurse_id#
+          </isNotNull>
+      </isPropertyAvailable>
+     </dynamic>
+     <include refid="whereByBloodSugarRecordId"/>
+  </update>
+    <!--删除病区-->
+    <delete id="deleteBloodSugarRecord" parameterClass="com.model.BloodSugarRecord">
+        <![CDATA[delete from "t_blood_sugar_record" ]]>
+        <include refid="whereByBloodSugarRecordId"/>
+    </delete>
+</sqlMap>
+

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+        classpath:/org/springframework/beans/factory/xml/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        classpath:/org/springframework/context/config/spring-context-3.0.xsd">
+        
+    <context:component-scan base-package="com" />
+    <context:property-placeholder location="classpath:config.properties" />
+    
+    <!-- 日志注解 -->
+	<bean id="logBeanPocessor" class="com.common.log.LogBeanPostProcessor" />
+	
+	<!-- spring容器获取 -->
+	<bean id="springContextUtil" class="com.common.util.SpringContextUtil"/>
+	
+	<!-- 数据源 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+	<property name="driverClassName" value="${oracle_driverName}"></property>
+	<property name="url" value="${oracle_url}"></property>
+    <property name="username" value="${oracle_username}"></property>
+    <property name="password" value="${oracle_password}"></property>
+   </bean>
+	
+	<!-- ibatis -->
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation" value="classpath:SqlMapConfig.xml" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>	
+</beans>

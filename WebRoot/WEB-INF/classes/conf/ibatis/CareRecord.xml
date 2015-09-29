@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+   "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+  <!-- 对象属性与表映射 -->
+  <resultMap class="com.model.CareRecord" id="RM_CareRecord">
+      <result property="id" column="id"/>
+      <result property="patient_record_number" column="patient_record_number"/>
+      <result property="doctor_diagnosis" column="doctor_diagnosis"/>
+      <result property="in_hospital_time" column="in_hospital_time"/>
+      <result property="disease_degree" column="disease_degree"/>
+      <result property="in_hospital_way" column="in_hospital_way"/>
+      <result property="history_and_main" column="history_and_main"/>
+      <result property="abnormal_character" column="abnormal_character"/>
+      <result property="temperature" column="temperature"/>
+      <result property="pulse" column="pulse"/>
+      <result property="pulse_describe" column="pulse_describe"/>
+      <result property="boold_pressure" column="boold_pressure"/>
+      <result property="breath" column="breath"/>
+      <result property="breath_describe" column="breath_describe"/>
+      <result property="pupil_describe" column="pupil_describe"/>
+      <result property="consciousness" column="consciousness"/>
+      <result property="sprit" column="sprit"/>
+      <result property="skin_describe" column="skin_describe"/>
+      <result property="oral_cavity_decribe" column="oral_cavity_decribe"/>
+      <result property="mucosa_decribe" column="mucosa_decribe"/>
+      <result property="sight_decribe" column="sight_decribe"/>
+      <result property="hearing_decribe" column="hearing_decribe"/>
+      <result property="drain_big_decribe" column="drain_big_decribe"/>
+      <result property="drain_small_decribe" column="drain_small_decribe"/>
+      <result property="drain_else" column="drain_else"/>
+      <result property="transport_ability_describe" column="transport_ability_describe"/>
+      <result property="language_ability" column="language_ability"/>
+      <result property="self_care" column="self_care"/>
+      <result property="career" column="career"/>
+      <result property="culture" column="culture"/>
+      <result property="marray" column="marray"/>
+      <result property="child" column="child"/>
+      <result property="pay_way" column="pay_way"/>
+      <result property="smoke" column="smoke"/>
+      <result property="alcohol" column="alcohol"/>
+      <result property="diet" column="diet"/>
+      <result property="sleep" column="sleep"/>
+      <result property="allergic_medicine" column="allergic_medicine"/>
+      <result property="allergic_food" column="allergic_food"/>
+      <result property="allergic_else" column="allergic_else"/>
+      <result property="care_level" column="care_level"/>
+      <result property="care_decumbence" column="care_decumbence"/>
+      <result property="care_diet" column="care_diet"/>
+      <result property="cure_way" column="cure_way"/>
+      <result property="care_solution" column="care_solution"/>
+      <result property="way_and_outcome" column="way_and_outcome"/>
+      <result property="signature_id" column="signature_id"/>
+      <result property="log_time" column="log_time"/>
+  </resultMap>
+  <!--设置where主键的查询条件 -->
+  <sql id="whereByCareRecordId">
+     <dynamic prepend=" where ">
+       <isPropertyAvailable property="id">
+          <isNotNull property="id" prepend=" and ">
+            "id" = #id#
+          </isNotNull>
+       </isPropertyAvailable>
+     </dynamic>
+  </sql>
+<!-- 查询护理记录(单条记录)-->
+<select id="selectCareRecord" parameterClass="com.model.CareRecord" resultMap="RM_CareRecord">
+    <![CDATA[select * from  "t_care_records"]]>
+      <include refid="whereByCareRecordId"/>
+</select>
+<!-- 模糊查询病区列表(按病案号)-->
+<select id="selectCareRecordList" parameterClass="com.model.CareRecord" resultMap="RM_CareRecord">
+    <![CDATA[select * from  "t_care_records" where "patient_record_number" like '%patient_record_number%']]>
+</select>
+<!-- 按页查询病区 -->
+ <select id="selectCareRecordByPage" parameterClass="java.util.HashMap" resultMap="RM_CareRecord">
+     <isNotEqual property="rowLength" compareValue="-1">
+     </isNotEqual>
+     <isEqual property="rowLength" compareValue="-1">
+         select * from "t_common_num_and_nurse"
+     </isEqual>
+</select> 
+<!--添加新病区  -->
+  <insert id="insertCareRecord" parameterClass="com.model.CareRecord">
+    <![CDATA[insert into "t_care_records"("patient_record_number","doctor_diagnosis","in_hospital_time","disease_degree","in_hospital_way","history_and_main","abnormal_character","temperature","pulse","pulse_describe","boold_pressure","breath","breath_describe",
+        "pupil_describe","consciousness","sprit","skin_describe","oral_cavity_decribe","mucosa_decribe","sight_decribe","hearing_decribe","drain_big_decribe","drain_small_decribe","drain_else","transport_ability_describe","language_ability","self_care","career","culture","marray","child","pay_way","smoke","alcohol","diet","sleep","allergic_medicine","allergic_food","allergic_else","care_level","care_decumbence","care_diet","cure_way","care_solution","way_and_outcome","signature_id","log_time")
+       values(#patient_record_number#,#doctor_diagnosis#,TO_DATE( #in_hospital_time#, 'SYYYY-MM-DD HH24:MI:SS'),#disease_degree#,#in_hospital_way#,#history_and_main#,#abnormal_character#,#temperature#,#pulse#,#pulse_describe#,#boold_pressure#,#breath#,#breath_describe#,#pupil_describe#,#consciousness#,#sprit#,#skin_describe#,#oral_cavity_decribe#,#mucosa_decribe#,#sight_decribe#,#hearing_decribe#,#drain_big_decribe#,#drain_small_decribe#,#drain_else#,#transport_ability_describe#,#language_ability#,#self_care#,#career#,#culture#,#marray#,#child#,#pay_way#,#smoke#,#alcohol#,#diet#,#sleep#,#allergic_medicine#,#allergic_food#,#allergic_else#,#care_level#,#care_decumbence#,#care_diet#,#cure_way#,#care_solution#,#way_and_outcome#,#signature_id#,TO_DATE( #log_time#, 'SYYYY-MM-DD HH24:MI:SS'))]]>
+  </insert>
+<!--跟新病区信息  -->
+ <update id="updateCareRecord" parameterClass="com.model.CareRecord">
+     update "t_care_records" 
+     <dynamic prepend="set">
+      <isPropertyAvailable property="patient_record_number">
+          <isNotNull property="patient_record_number" prepend=" ,">
+              "patient_record_number"=#patient_record_number#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="doctor_diagnosis">
+          <isNotNull property="doctor_diagnosis" prepend=" ,">
+              "doctor_diagnosis"=#doctor_diagnosis#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="in_hospital_time">
+          <isNotNull property="in_hospital_time" prepend=" ,">
+              "in_hospital_time"=TO_DATE(#in_hospital_time#, 'SYYYY-MM-DD HH24:MI:SS')
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="disease_degree">
+          <isNotNull property="disease_degree" prepend=" ,">
+              "disease_degree"=#disease_degree#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="in_hospital_way">
+          <isNotNull property="in_hospital_way" prepend=" ,">
+              "in_hospital_way"=#in_hospital_way#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="history_and_main">
+          <isNotNull property="history_and_main" prepend=" ,">
+              "history_and_main"=#history_and_main#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="abnormal_character">
+          <isNotNull property="abnormal_character" prepend=" ,">
+              "abnormal_character"=#abnormal_character#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="temperature">
+          <isNotNull property="temperature" prepend=" ,">
+              "temperature"=#temperature#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="pulse">
+          <isNotNull property="pulse" prepend=" ,">
+              "pulse"=#pulse#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="pulse_describe">
+          <isNotNull property="pulse_describe" prepend=" ,">
+              "pulse_describe"=#pulse_describe#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="boold_pressure">
+          <isNotNull property="boold_pressure" prepend=" ,">
+              "boold_pressure"=#boold_pressure#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="breath">
+          <isNotNull property="breath" prepend=" ,">
+              "breath"=#breath#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="breath_describe">
+          <isNotNull property="breath_describe" prepend=" ,">
+              "breath_describe"=#breath_describe#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="pupil_describe">
+          <isNotNull property="pupil_describe" prepend=" ,">
+              "pupil_describe"=#pupil_describe#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="consciousness">
+          <isNotNull property="consciousness" prepend=" ,">
+              "consciousness"=#consciousness#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="sprit">
+          <isNotNull property="sprit" prepend=" ,">
+              "sprit"=#sprit#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="skin_describe">
+          <isNotNull property="skin_describe" prepend=" ,">
+              "skin_describe"=#skin_describe#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="oral_cavity_decribe">
+          <isNotNull property="oral_cavity_decribe" prepend=" ,">
+              "oral_cavity_decribe"=#oral_cavity_decribe#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="mucosa_decribe">
+          <isNotNull property="mucosa_decribe" prepend=" ,">
+              "mucosa_decribe"=#mucosa_decribe#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="sight_decribe">
+          <isNotNull property="sight_decribe" prepend=" ,">
+              "sight_decribe"=#sight_decribe#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="hearing_decribe">
+          <isNotNull property="hearing_decribe" prepend=" ,">
+              "hearing_decribe"=#hearing_decribe#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="drain_big_decribe">
+          <isNotNull property="drain_big_decribe" prepend=" ,">
+              "drain_big_decribe"=#drain_big_decribe#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="drain_small_decribe">
+          <isNotNull property="drain_small_decribe" prepend=" ,">
+              "drain_small_decribe"=#drain_small_decribe#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="drain_else">
+          <isNotNull property="drain_else" prepend=" ,">
+              "drain_else"=#drain_else#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="transport_ability_describe">
+          <isNotNull property="transport_ability_describe" prepend=" ,">
+              "transport_ability_describe"=#transport_ability_describe#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="language_ability">
+          <isNotNull property="language_ability" prepend=" ,">
+              "language_ability"=#language_ability#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="self_care">
+          <isNotNull property="self_care" prepend=" ,">
+              "self_care"=#self_care#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="career">
+          <isNotNull property="career" prepend=" ,">
+              "career"=#career#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="culture">
+          <isNotNull property="culture" prepend=" ,">
+              "culture"=#culture#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="marray">
+          <isNotNull property="marray" prepend=" ,">
+              "marray"=#marray#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="child">
+          <isNotNull property="child" prepend=" ,">
+              "child"=#child#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="pay_way">
+          <isNotNull property="pay_way" prepend=" ,">
+              "pay_way"=#pay_way#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="smoke">
+          <isNotNull property="smoke" prepend=" ,">
+              "smoke"=#smoke#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="alcohol">
+          <isNotNull property="alcohol" prepend=" ,">
+              "alcohol"=#alcohol#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="diet">
+          <isNotNull property="diet" prepend=" ,">
+              "diet"=#diet#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="sleep">
+          <isNotNull property="sleep" prepend=" ,">
+              "sleep"=#sleep#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="allergic_medicine">
+          <isNotNull property="allergic_medicine" prepend=" ,">
+              "allergic_medicine"=#allergic_medicine#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="allergic_food">
+          <isNotNull property="allergic_food" prepend=" ,">
+              "allergic_food"=#allergic_food#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="allergic_else">
+          <isNotNull property="allergic_else" prepend=" ,">
+              "allergic_else"=#allergic_else#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="care_level">
+          <isNotNull property="care_level" prepend=" ,">
+              "care_level"=#care_level#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="care_decumbence">
+          <isNotNull property="care_decumbence" prepend=" ,">
+              "care_decumbence"=#care_decumbence#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="care_diet">
+          <isNotNull property="care_diet" prepend=" ,">
+              "care_diet"=#care_diet#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="cure_way">
+          <isNotNull property="cure_way" prepend=" ,">
+              "cure_way"=#cure_way#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="care_solution">
+          <isNotNull property="care_solution" prepend=" ,">
+              "care_solution"=#care_solution#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="way_and_outcome">
+          <isNotNull property="way_and_outcome" prepend=" ,">
+              "way_and_outcome"=#way_and_outcome#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="signature_id">
+          <isNotNull property="signature_id" prepend=" ,">
+              "signature_id"=#signature_id#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="log_time">
+          <isNotNull property="log_time" prepend=" ,">
+              "log_time"=TO_DATE(#log_time#, 'SYYYY-MM-DD HH24:MI:SS')
+          </isNotNull>
+      </isPropertyAvailable>
+     </dynamic>
+     <include refid="whereByCareRecordId"/>
+  </update>
+    <!--删除病区-->
+    <delete id="deleteCareRecord" parameterClass="com.model.CareRecord">
+        <![CDATA[delete from "t_care_records"  ]]>
+        <include refid="whereByCareRecordId"/>
+    </delete>
+</sqlMap>
+

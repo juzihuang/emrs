@@ -1,0 +1,179 @@
+公共账号
+1、分页查询
+http://localhost:8080/emrs/commonNumAndNurse/getCommonNumList?jsonParams={%22bigNurseNumber%22:%22222%22,%22sEcho%22:%220%22,%22iDisplayStart%22:%221%22,%22iDisplayLength%22:%222%22}
+2、插入
+http://localhost:8080/emrs/commonNumAndNurse/addCommonNumAndNurse?jsonParams={%22bigNurseNumber%22:%22222%22,%22commonNumber%22:%22111%22,%22nurseNumber%22:%22111%22,%22createTime%22:%222%22}
+
+病区的增删改查
+1、添加病区
+jsonParams={"name":"不为空，病区名称","area_direct_id":"不为空，病区主任id","big_nurse_id":"不为空，病区大护士长id"}
+成功返回值：{"errorCode":"0","result":true}
+失败返回值：{"errorCode":"1000"}
+2、查询单个病区
+http://10.103.28.188:8080/emrs/inpatientArea/getInpatientArea?jsonParams={%22id%22:%220%22}
+jsonParams={"id":"不为空，病区主键"}
+成功返回值：{"errorCode":"0","result":{"id":0,"name":"肾1","area_direct_id":11,"big_nurse_id":11,"create_time":"2015-09-07 15:29:28"}}
+失败返回值：{"errorCode":"1000"}
+3、修改病区
+http://10.103.28.188:8080/emrs/inpatientArea/updateInpatientArea?jsonParams={%22id%22:%220%22,%22name%22:%22dgp%22,%22code%22:%2211%22,%22area_direct_id%22:%222%22,%22big_nurse_id%22:%2212%22}
+jsonParams={"id":病区主键不为空,"name":"病区名不为空","area_direct_id":病区主任id不为空,"big_nurse_id":病区大护士长不为空}
+成功返回值：{"errorCode":"0","result":true}
+失败返回值：{"errorCode":"1000"}
+4、删除病区
+http://10.103.28.188:8080/emrs/inpatientArea/deleteInpatientArea?jsonParams={%22id%22:%220%22}
+jsonParams={"id":"不为空，病区主键"}
+5、查询病区列表
+http://10.103.28.188:8080/emrs/inpatientArea/getInpatientAreaList?jsonParams={"sEcho":"0","iDisplayStart":"1","iDisplayLength":"2"}
+成功返回值：{"errorCode":"0","iTotalDisplayRecords":"2","result":[{"id":3,"name":"dgp","area_direct_id":2,"big_nurse_id":12,"create_time":"2015-09-08 15:55:38"},{"id":2,"name":"dgp","area_direct_id":2,"big_nurse_id":12,"create_time":"2015-09-08 15:14:31"}],"sEcho":"0"}
+失败返回值：{"errorCode":"1000"}
+
+科室接口：
+1、添加科室
+http://10.103.28.188:8080/emrs/admDepartment/addAdmDepartment?jsonParams={"name":"肾","inpatient_area_id":"1","department_direct_id":"1"}
+jsonParams={"name":"不为空，科室名称","inpatient_area_id":"病区号，不为空","department_direct_id":"病区主任号"}
+成功返回值：{"errorCode":"0","result":true}
+失败返回值：{"errorCode":"1000"}
+2、查询单个科室
+http://10.103.28.188:8080/emrs/admDepartment/getAdmDepartment?jsonParams={"id":"1"}
+jsonParams={"id":"科室id,不为空"}
+成功返回值：{"errorCode":"0","result":{"id":1,"name":"2221","department_direct_id":1,"inpatient_area_id":1,"create_time":"2015-09-09 11:22:03"}}
+失败返回值：{"errorCode":"1000"}
+3、查询科室列表
+http://10.103.28.188:8080/emrs/admDepartment/getAdmDepartmentList?jsonParams={"sEcho":"0","iDisplayStart":"1","iDisplayLength":"2"}
+jsonParams={"sEcho":"0","iDisplayStart":"1","iDisplayLength":"2"}
+成功返回值：{"errorCode":"0","iTotalDisplayRecords":"2","result":[{"id":1,"name":"2221","department_direct_id":1,"inpatient_area_id":1,"create_time":"2015-09-09 11:22:03"},{"id":2,"name":"2221","department_direct_id":1,"inpatient_area_id":1,"create_time":"2015-09-09 11:24:53"}],"sEcho":"0"}
+失败返回值：{"errorCode":"1000"}
+4、修改科室
+http://10.103.28.188:8080/emrs/admDepartment/updateAdmDepartment?jsonParams={"id":"1","name":"肾1","inpatient_area_id":"1","department_direct_id":"1"}
+jsonParams={"id":"科室id,不为空","name":"不为空，科室名称","inpatient_area_id":"病区号，不为空","department_direct_id":"病区主任号"}
+成功返回值：{"errorCode":"0","result":true}
+失败返回值：{"errorCode":"1000"}
+5、删除科室
+http://10.103.28.188:8080/emrs/admDepartment/deleteAdmDepartment?jsonParams={"id":"1"}
+jsonParams={"id":"科室id,不为空"}
+成功返回值：{"errorCode":"0","result":true}
+失败返回值：{"errorCode":"1000"}
+
+三、员工管理
+1、按页获取员工列表
+http://10.103.28.188:8080/emrs/admEmployee/getAdmEmployeeList?jsonParams={%22sEcho%22:%220%22,%22iDisplayStart%22:%221%22,%22iDisplayLength%22:%222%22}
+jsonParams={%22sEcho%22:%22分页标识，不为空%22,%22iDisplayStart%22:%22起始记录号，整数，不为空%22,%22iDisplayLength%22:%22分页长度，整数，当为-1时表示所有数据%22}
+成功返回值：{"errorCode":"0","iTotalDisplayRecords":"2","result":[{"userNumber":"12","password":"3","realName":"3","sex":"3","roolName":"大护士长","createTime":"2015-08-18 10:45:34","updateTime":"2015-08-17 10:45:37"},{"userNumber":"1","password":"3","realName":"3","sex":"3","roolName":"大护士长","createTime":"2015-08-18 10:45:34","updateTime":"2015-08-17 10:45:37"}],"sEcho":"0"}
+失败返回值：{"errorCode":"1000"}
+2、添加员工
+http://10.103.28.188:8080/emrs/admEmployee/addAdmEmpolyee?jsonParams={"userNumber":"3","password":"111111","realName":"dgp001","sex":"1","roolId":1,"createTime":"2015-08-10 14:20:54","updateTime":"2015-08-10 14:20:54"}
+jsonParams={"userNumber":"员工号，整数","password":"密码，字符串，不为空","realName":"用户名，字符串，不为空","sex":"男/女，不为空","roolId": 角色编号，整数，不为空}
+成功返回值:{"errorCode":"0","result":true}
+失败返回值：{"errorCode":"1000"}
+3、查询员工
+http://10.103.28.188:8080/emrs/admEmployee/getAdmEmployee?jsonParams={"userNumber":"3"}
+成功返回值:{"errorCode":"0","result":{"userNumber":"3","password":"111111","realName":"1","sex":"1","roolName":"护士","createTime":"2015-09-06 11:18:50","updateTime":"2015-09-06 11:18:50"}}
+无该员工时返回：{"errorCode":"0"}
+失败返回值：{"errorCode":"1000"}
+4、修改员工
+http://10.103.28.188:8080/emrs/admEmployee/updateAdmEmpolyee?jsonParams={"userNumber":"3","password":"111111","realName":"1","sex":"1","roolId":1}
+jsonParams={"userNumber":"员工号，数字不为空","password":"字符串，不为空","realName":"用户名不为空","sex":"男、女，不为空","roolId":角色号，整数，不为空}
+成功返回值:{"errorCode":"0","result":true}
+失败返回值：{"errorCode":"1000"}
+5、删除员工
+http://10.103.28.188:8080/emrs/admEmployee/deleteAdmEmpolyee?jsonParams={"userNumber":"3"}
+jsonParams={"userNumber":"3"}
+成功返回值:{"errorCode":"0","result":true}
+失败返回值：{"errorCode":"1000"}
+
+一般护理记录
+1、按id获取护理记录
+http://10.103.28.188:8080/emrs/careRecord/getCareRecord?jsonParams={"id":"2"}
+jsonParams={"id":"2"}
+成功返回值:{"errorCode":"0","result":{"id":"2","patient_record_number":"1","doctor_diagnosis":"1","in_hospital_time":"2015-08-03 15:44:53","disease_degree":"1","in_hospital_way":"1","history_and_main":"11","abnormal_character":"1","temperature":"1","pulse":"1","pulse_describe":"1","boold_pressure":"1","breath":"1","breath_describe":"1","pupil_describe":"1","consciousness":"1","sprit":"1","skin_describe":"1","oral_cavity_decribe":"1","mucosa_decribe":"1","sight_decribe":"1","hearing_decribe":"1","drain_big_decribe":"1","drain_small_decribe":"1","drain_else":"1","transport_ability_describe":"1","language_ability":"1","self_care":"1","career":"1","culture":"1","marray":"1","child":"1","pay_way":"1","smoke":"1","alcohol":"1","diet":"1","sleep":"1","allergic_medicine":"1","allergic_food":"1","allergic_else":"1","care_level":"1","care_decumbence":"1","care_diet":"1","cure_way":"1","care_solution":"1","way_and_outcome":"1","signature_id":"1","log_time":"2015-09-28 15:45:56"}}
+失败返回值：{"errorCode":"1000"}
+2、添加一般护理记录
+http://10.103.28.188:8080/emrs/careRecord/addCareRecord?jsonParams={"patient_record_number":"1","doctor_diagnosis":"1","in_hospital_time":"2015-08-03 15:44:53","disease_degree":"1","in_hospital_way":"1","history_and_main":"11","abnormal_character":"1","temperature":"1","pulse":"1","pulse_describe":"1","boold_pressure":"1","breath":"1","breath_describe":"1","pupil_describe":"1","consciousness":"1","sprit":"1","skin_describe":"1","oral_cavity_decribe":"1","mucosa_decribe":"1","sight_decribe":"1","hearing_decribe":"1","drain_big_decribe":"1","drain_small_decribe":"1","drain_else":"1","transport_ability_describe":"1","language_ability":"1","self_care":"1","career":"1","culture":"1","marray":"1","child":"1","pay_way":"1","smoke":"1","alcohol":"1","diet":"1","sleep":"1","allergic_medicine":"1","allergic_food":"1","allergic_else":"1","care_level":"1","care_decumbence":"1","care_diet":"1","cure_way":"1","care_solution":"1","way_and_outcome":"1","signature_id":"1","log_time":"2015-09-28 15:45:56"}
+jsonParams={"patient_record_number":"1","doctor_diagnosis":"1","in_hospital_time":"2015-08-03 15:44:53","disease_degree":"1","in_hospital_way":"1","history_and_main":"11","abnormal_character":"1","temperature":"1","pulse":"1","pulse_describe":"1","boold_pressure":"1","breath":"1","breath_describe":"1","pupil_describe":"1","consciousness":"1","sprit":"1","skin_describe":"1","oral_cavity_decribe":"1","mucosa_decribe":"1","sight_decribe":"1","hearing_decribe":"1","drain_big_decribe":"1","drain_small_decribe":"1","drain_else":"1","transport_ability_describe":"1","language_ability":"1","self_care":"1","career":"1","culture":"1","marray":"1","child":"1","pay_way":"1","smoke":"1","alcohol":"1","diet":"1","sleep":"1","allergic_medicine":"1","allergic_food":"1","allergic_else":"1","care_level":"1","care_decumbence":"1","care_diet":"1","cure_way":"1","care_solution":"1","way_and_outcome":"1","signature_id":"1","log_time":"2015-09-28 15:45:56"}
+除patient_record_number所有字段允许为空串
+成功返回值:{"errorCode":"0","result":true}
+失败返回值：{"errorCode":"1000"}
+3、删除一般护理记录
+http://10.103.28.188:8080/emrs/careRecord/deleteCareRecord?jsonParams={"id":"2"}
+jsonParams={"id":"2"}
+成功返回值:{"errorCode":"0","result":true}920901388
+失败返回值：{"errorCode":"1000"}
+4、更新一般护理记  录
+http://10.103.28.188:8080/emrs/careRecord/updateCareRecord?jsonParams={"id":"3","patient_record_number":"222222","doctor_diagnosis":"1","in_hospital_time":"2015-08-03 15:44:53","disease_degree":"1","in_hospital_way":"1","history_and_main":"11","abnormal_character":"1","temperature":"1","pulse":"1","pulse_describe":"1","boold_pressure":"1","breath":"1","breath_describe":"1","pupil_describe":"1","consciousness":"1","sprit":"1","skin_describe":"1","oral_cavity_decribe":"1","mucosa_decribe":"1","sight_decribe":"1","hearing_decribe":"1","drain_big_decribe":"1","drain_small_decribe":"1","drain_else":"1","transport_ability_describe":"1","language_ability":"1","self_care":"1","career":"1","culture":"1","marray":"1","child":"1","pay_way":"1","smoke":"1","alcohol":"1","diet":"1","sleep":"1","allergic_medicine":"1","allergic_food":"1","allergic_else":"1","care_level":"1","care_decumbence":"1","care_diet":"1","cure_way":"1","care_solution":"1","way_and_outcome":"1","signature_id":"1","log_time":"2015-09-28 15:45:56"}
+jsonParams={"id":"2"}
+成功返回值:{"errorCode":"0","result":true}
+失败返回值：{"errorCode":"1000"}
+
+体温表
+1、查询一条体温记录
+http://10.103.28.188:8080/emrs/temperatureRecord/getTemperatureRecord?jsonParams={%22id%22:%221%22}
+jsonParams={%22id%22:%221%22}
+成功返回值:{"errorCode":"0","result":{"id":"1","patient_id":"2","time_day":"2015-09-07 13:03:31","time_hour_2":2.0,"time_hour_6":2.0,"time_hour_10":2.0,"time_hour_14":2.0,"time_hour_18":2.0,"time_hour_22":2.0,"days_after_operation":2,"pulse":2,"breath":2,"blood_pressure":"2","stool_frequency":2,"fluid_in":2.0,"fluid_out":2.0,"fluid_sum":22.0,"weight":2.0,"height":2.0,"allergen":"2","urinary_volume":2.0,"create_time":"2015-09-15 11:04:29"}}
+失败返回值：{"errorCode":"1000"}
+
+
+血糖监测表——HFF
+1、添加一次血糖检测
+http://localhost:8080/emrs/bloodSugarRecord/addBloodSugarRecord?jsonParams={%22patient_id%22:%22222222%22,%22date%22:%222015-09-21%22,%22before_breakfast%22:%223.0%22,%22after_breakfast%22:%224.5%22,%22before_lunch%22:%222.0%22,%22after_lunch%22:%224.6%22,%22before_supper%22:%222.3%22,%22after_supper%22:%225.0%22,%22mark%22:%22good%22,%22doctor_id%22:%221%22,%22nurse_id%22:%222%22}
+成功返回值:{"errorCode":"0","result":true}
+失败返回值：{"errorCode":"1000","errorMessage":"......错误"}
+2、查询一次血糖监测记录(按病案号查询）
+http://localhost:8080/emrs/bloodSugarRecord/getBloodSugarRecord?jsonParams={%22patient_id%22:%22222222%22}
+成功返回值：{"errorCode":"0","result":{"id":"4","patient_id":"222222","date":"2015-09-22 00:00:00","before_breakfast":3.0,"after_breakfast":4.5,"before_lunch":2.0,"after_lunch":4.6,"before_supper":2.3,"after_supper":5.0,"mark":"good","doctor_id":1,"nurse_id":2}}
+失败返回值：{"errorCode":"1000"}
+3、更新一条血糖监测记录
+http://localhost:8080/emrs/bloodSugarRecord/updateBloodSugarRecord?jsonParams={"patient_id":"222222","date":"2015-09-22","before_breakfast":"3.0","after_breakfast":"4.5","before_lunch":"2.0","after_lunch":"4.6","before_supper":"2.3","after_supper":"5.0","mark":"good","doctor_id":"1","nurse_id":"2"}
+成功返回值：{"errorCode":"0","result":true}
+失败返回值：{"errorCode":"1000","errorMessage":"......错误"}
+4、删除一条血糖记录
+http://localhost:8080/emrs/bloodSugarRecord/deleteBloodSugarRecord?jsonParams={%22id%22:%225%22}
+成功返回值：{"errorCode":"0","result":true}
+失败返回值：{"errorCode":"1000"}
+5、分页显示血糖记录
+http://localhost:8080/emrs/bloodSugarRecord/getBloodSugarRecordList?jsonParams={"patient_id":"222222",%22sEcho%22:%220%22,%22iDisplayStart%22:%221%22,%22iDisplayLength%22:%222%22}
+成功返回值：{"errorCode":"0","iTotalDisplayRecords":"2","result":[{"id":"4","patient_id":"222222","date":"2015-09-22 00:00:00","before_breakfast":3.0,"after_breakfast":4.5,"before_lunch":2.0,"after_lunch":4.6,"before_supper":2.3,"after_supper":5.0,"mark":"good","doctor_id":1,"nuesr_id":2},{"id":"6","patient_id":"222222","date":"2015-09-22 00:00:00","before_breakfast":3.0,"after_breakfast":4.5,"before_lunch":2.0,"after_lunch":4.6,"before_supper":2.3,"after_supper":5.0,"mark":"good","doctor_id":1,"nuesr_id":2}],"sEcho":"0"}
+失败返回值：{"errorCode":"1000"}
+
+输血记录表——HFF
+1、添加一次输血记录
+http://localhost:8080/emrs/bloodTransfusionRecord/addBloodTransfusionRecord?jsonParams={%22patient_id%22:%22222222%22,%22history_blood_trans%22:%221%22,%22pregnancies%22:%223%22,%22labors%22:%223%22,%22patient_blood_trans_type%22:%221%22,%22donor_name%22:%2211111%22,%22donor_blood_type%22:%22B%22,%22donor_blood_num%22:%220050114140201B%22,%22donor_blood_breed%22:%22normal%22,%22donor_blood_volume%22:%22250ml%22,%22recheck_blood_result%22:%22good%22,%22cross_match_test_and_result%22:%22good%22,%22irregular_antibody_screen_res%22:%22good%22,%22other_examination_result%22:%22normal%22,%22rechecker_id%22:%22123456%22,%22cross_matcher_id%22:%22234561%22,%22blood_pickup_id%22:%22345612%22,%22blood_get_id%22:%22456123%22,%22pickup_date%22:%222015-09-23%2016:31%22}
+成功返回值:{"errorCode":"0","result":true}
+失败返回值：{"errorCode":"1000"}
+2、查询一次输血记录(按病案号查询）
+http://localhost:8080/emrs/bloodTransfusionRecord/getBloodTransfusionRecord?jsonParams={%22patient_id%22:%22222222%22}
+成功返回值：{"errorCode":"0","result":{"id":"1","history_blood_trans":"0","pregnancies":3,"labors":3,"patient_blood_trans_type":"1","donor_name":"11111","donor_blood_type":"B","donor_blood_num":"0050114140201B","donor_blood_breed":"normal","donor_blood_volume":"250ml","recheck_blood_result":"good","cross_match_test_and_result":"good","irregular_antibody_screen_res":"good","other_examination_result":"normal","rechecker_id":"123456","cross_matcher_id":"234561","blood_pickup_id":"345612","blood_get_id":"123","pickup_date":"2015-09-23 19:31:00"}}
+失败返回值：{"errorCode":"1000"}
+3、更新输血记录（按病案号）
+http://localhost:8080/emrs/bloodTransfusionRecord/updateBloodTransfusionRecord?jsonParams={%22patient_id%22:%22222222%22,%22history_blood_trans%22:%221%22,%22pregnancies%22:%223%22,%22labors%22:%223%22,%22patient_blood_trans_type%22:%221%22,%22donor_name%22:%2211111%22,%22donor_blood_type%22:%22B%22,%22donor_blood_num%22:%220050114140201B%22,%22donor_blood_breed%22:%22normal%22,%22donor_blood_volume%22:%22250ml%22,%22recheck_blood_result%22:%22good%22,%22cross_match_test_and_result%22:%22good%22,%22irregular_antibody_screen_res%22:%22good%22,%22other_examination_result%22:%22normal%22,%22rechecker_id%22:%22123456%22,%22cross_matcher_id%22:%22234561%22,%22blood_pickup_id%22:%22345612%22,%22blood_get_id%22:%22456123%22,%22pickup_date%22:%222015-09-23%2019:31%22}
+成功返回值：{"errorCode":"0","result":true}
+失败返回值：{"errorCode":"1000"}
+4、删除一条输血记录（根据id)
+http://localhost:8080/emrs/bloodTransfusionRecord/deleteBloodTransfusionRecord?jsonParams={%22id%22:%221%22}
+成功返回值：{"errorCode":"0","result":true}
+失败返回值：{"errorCode":"1000"}
+5、分页显示血糖记录(按病案号显示)
+http://localhost:8080/emrs/bloodTransfusionRecord/getBloodTransfusionRecordList?jsonParams={%22patient_id%22:%22222222%22,%22sEcho%22:%220%22,%22iDisplayStart%22:%221%22,%22iDisplayLength%22:%222%22}
+成功返回值：{"errorCode":"0","iTotalDisplayRecords":"2","result":[{"id":"2","history_blood_trans":"0","pregnancies":3,"labors":3,"patient_blood_trans_type":"1","donor_name":"11111","donor_blood_type":"B","donor_blood_num":"0050114140201B","donor_blood_breed":"normal","donor_blood_volume":"250ml","recheck_blood_result":"good","cross_match_test_and_result":"good","irregular_antibody_screen_res":"good","other_examination_result":"normal","rechecker_id":"123456","cross_matcher_id":"234561","blood_pickup_id":"345612","blood_get_id":"123","pickup_date":"2015-09-23 19:31:00"}],"sEcho":"0"}
+失败返回值：{"errorCode":"1000"}
+
+重症护理记录——HFF
+1、添加一次重症护理记录
+http://localhost:8080/emrs/intensiveCareRecord/addIntensiveCareRecord?jsonParams={"patient_id":"22222222","date":"2015-09-24","temperature":"36.5","pulse":"60","breath":"16","blood_pressure":"160","oxygen_saturation":"222","input_amount_liquid":"200","input_amount_other":"100","output_amount_urine":"150","output_amount_other":"100","condition_and_treatment":"good","recorder_id":"1111111111"}
+成功返回值:{"errorCode":"0","result":true}
+失败返回值：{"errorCode":"1000"}
+2、查询一次重症护理记录(按病案号查询）
+http://localhost:8080/emrs/intensiveCareRecord/getIntensiveCareRecord?jsonParams={%22patient_id%22:%22222222222%22}
+{"errorCode":"0","result":{"id":"1","patient_id":"222222222","date":"2015-09-24 20:24:00","temperature":"36.5","pulse":"60","breath":"16","blood_pressure":"16080","oxygen_saturation":"222","input_amount_liquid":"200","input_amount_other":"100","output_amount_urine":"150","output_amount_other":"100","condition_and_treatment":"good","recorder_id":"11111111"}}
+失败返回值：{"errorCode":"1000"}
+3、更新重症护理记录（按病案号）
+http://localhost:8080/emrs/intensiveCareRecord/updateIntensiveCareRecord?jsonParams={"patient_id":"22222222","date":"2015-09-25","temperature":"36.5","pulse":"60","breath":"16","blood_pressure":"160","oxygen_saturation":"222","input_amount_liquid":"200","input_amount_other":"100","output_amount_urine":"150","output_amount_other":"100","condition_and_treatment":"good","recorder_id":"1111111111"}
+成功返回值：{"errorCode":"0","result":true}
+失败返回值：{"errorCode":"1000"}
+4、删除一条重症护理记录（根据id)
+http://localhost:8080/emrs/intensiveCareRecord/deleteIntensiveCareRecord?jsonParams={%22id%22:%221%22}
+成功返回值：{"errorCode":"0","result":true}
+失败返回值：{"errorCode":"1000"}
+5、分页显示重症护理记录(按病案号显示)
+http://localhost:8080/emrs/intensiveCareRecord/getIntensiveCareRecordList?jsonParams={%22patient_id%22:%2222222222%22,%22sEcho%22:%220%22,%22iDisplayStart%22:%221%22,%22iDisplayLength%22:%222%22}
+{"errorCode":"0","iTotalDisplayRecords":"2","result":[{"id":"2","patient_id":"22222222","date":"2015-09-25 00:00:00","temperature":"36.5","pulse":"60","breath":"16","blood_pressure":"160","oxygen_saturation":"222","input_amount_liquid":"200","input_amount_other":"100","output_amount_urine":"150","output_amount_other":"100","condition_and_treatment":"good","recorder_id":"1111111111"},{"id":"3","patient_id":"22222222","date":"2015-09-25 00:00:00","temperature":"36.5","pulse":"60","breath":"16","blood_pressure":"160","oxygen_saturation":"222","input_amount_liquid":"200","input_amount_other":"100","output_amount_urine":"150","output_amount_other":"100","condition_and_treatment":"good","recorder_id":"1111111111"}],"sEcho":"0"}
+失败返回值：{"errorCode":"1000"}

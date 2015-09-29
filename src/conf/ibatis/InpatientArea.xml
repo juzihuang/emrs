@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+   "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+  <!-- 对象属性与表映射 -->
+  <resultMap class="com.model.InpatientArea" id="RM_InpatientArea">
+     <result property="id" column="Id"/>
+     <result property="name" column="Name"/>
+     <result property="area_direct_id" column="Area_direct_id"/>
+     <result property="big_nurse_id" column="Big_nurse_id"/>
+     <result property="create_time" column="Create_time"/>
+  </resultMap>
+  <!--设置where主键的查询条件 -->
+  <sql id="whereByIAId">
+     <dynamic prepend=" where ">
+       <isPropertyAvailable property="id">
+          <isNotNull property="id" prepend=" and ">
+            "Id" = #id#
+          </isNotNull>
+       </isPropertyAvailable>
+     </dynamic>
+  </sql>
+<!-- 查询病区-->
+<select id="selectInpatientArea" parameterClass="com.model.InpatientArea" resultMap="RM_InpatientArea">
+    <![CDATA[select * from  "t_adm_inpatient_areas"]]>
+      <include refid="whereByIAId"/>
+</select>
+<!-- 模糊查询病区列表-->
+<select id="selectInpatientAreaList" parameterClass="com.model.InpatientArea" resultMap="RM_InpatientArea">
+    <![CDATA[select * from  "t_adm_inpatient_areas" where "Code" like '%$code$%']]>
+</select>
+<!-- 按页查询病区 -->
+ <select id="selectInpatientAreaByPage" parameterClass="com.model.Page" resultMap="RM_InpatientArea">
+   <isNotEqual property="rowLength" compareValue="-1">
+     <![CDATA[select * from (select A.*,ROWNUM from (select * from "t_adm_inpatient_areas") A where ROWNUM < #rowNumEnd# ) where ROWNUM >= #rowNumStart#]]>
+   </isNotEqual>
+    <isEqual property="rowLength" compareValue="-1">
+     select * from "t_adm_inpatient_areas"
+   </isEqual>
+</select> 
+<!--添加新病区  -->
+  <insert id="insertInpatientArea" parameterClass="com.model.InpatientArea">
+    <![CDATA[insert into "t_adm_inpatient_areas"("Name","Area_direct_id","Big_nurse_id","Create_time") 
+       values(#name#,#area_direct_id#,#big_nurse_id#,TO_DATE( #create_time#, 'SYYYY-MM-DD HH24:MI:SS'))]]>
+  </insert>
+  
+<!--跟新病区信息  -->
+  <update id="updateInpatientArea" parameterClass="com.model.InpatientArea">
+     update "t_adm_inpatient_areas" 
+     <dynamic prepend="set">
+         <isPropertyAvailable property="name">
+            <isNotNull property="name" prepend=" ,">
+               "Name"=#name#
+            </isNotNull>
+        </isPropertyAvailable>
+         <isPropertyAvailable property="area_direct_id">
+            <isNotNull property="area_direct_id" prepend=" ,">
+               "Area_direct_id"=#area_direct_id#
+            </isNotNull>
+        </isPropertyAvailable>
+         <isPropertyAvailable property="big_nurse_id">
+            <isNotNull property="big_nurse_id" prepend=" ,">
+               "Big_nurse_id"=#big_nurse_id#
+            </isNotNull>
+        </isPropertyAvailable>
+        <!-- Create_time 字段不进行更新 -->
+     </dynamic>
+     <!-- 引用更新条件 -->
+     <include refid="whereByIAId"/>
+  </update>
+  <!-- 删除病区 -->
+  <delete id="deleteInpatientArea" parameterClass="com.model.InpatientArea">
+      <![CDATA[delete from "t_adm_inpatient_areas"  ]]>
+      <include refid="whereByIAId"/>
+  </delete>
+</sqlMap>
+
+<!-- 	
+  private  long id;
+	private  String code;
+	private  String name;
+	private  long area_direct_id;
+	private  long big_nurse_id;
+	private  String create_time; -->

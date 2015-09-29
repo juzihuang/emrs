@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+   "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+  <!-- 对象属性与表映射 -->
+  <resultMap class="com.model.TemperatureRecord" id="RM_TemperatureRecord">
+      <result property="id" column="id"/>
+      <result property="patient_id" column="patient_id"/>
+      <result property="time_day" column="time_day"/>
+      <result property="time_hour_2" column="time_hour_2"/>
+      <result property="time_hour_6" column="time_hour_6"/>
+      <result property="time_hour_10" column="time_hour_10"/>
+      <result property="time_hour_14" column="time_hour_14"/>
+      <result property="time_hour_18" column="time_hour_18"/>
+      <result property="time_hour_22" column="time_hour_22"/>
+      <result property="days_after_operation" column="days_after_operation"/>
+      <result property="pulse" column="pulse"/>
+      <result property="breath" column="breath"/>
+      <result property="blood_pressure" column="blood_pressure"/>
+      <result property="stool_frequency" column="stool_frequency"/>
+      <result property="fluid_in" column="fluid_in"/>
+      <result property="fluid_out" column="fluid_out"/>
+      <result property="fluid_sum" column="fluid_sum"/>
+      <result property="weight" column="weight"/>
+      <result property="height" column="height"/>
+      <result property="allergen" column="allergen"/>
+      <result property="urinary_volume" column="urinary_volume"/>
+      <result property="create_time" column="create_time"/>
+  </resultMap>
+  <!--设置where主键的查询条件 -->
+  <sql id="whereByTRId">
+     <dynamic prepend=" where ">
+       <isPropertyAvailable property="id">
+          <isNotNull property="id" prepend=" and ">
+            "id" = #id#
+          </isNotNull>
+       </isPropertyAvailable>
+     </dynamic>
+  </sql>
+<!-- 查询温度-->
+<select id="selectTemperatureRecord" parameterClass="com.model.TemperatureRecord" resultMap="RM_TemperatureRecord">
+    <![CDATA[select * from  "t_temperature_records"]]>
+      <include refid="whereByTRId"/>
+</select>
+<!-- 按页查询温度 -->
+ <select id="selectTemperatureRecordByPage" parameterClass="com.model.Page" resultMap="RM_TemperatureRecord">
+   <isNotEqual property="rowLength" compareValue="-1">
+     <![CDATA[select * from (select A.*,ROWNUM from (select * from "t_temperature_records") A where ROWNUM < #rowNumEnd# ) where ROWNUM >= #rowNumStart#]]>
+   </isNotEqual>
+    <isEqual property="rowLength" compareValue="-1">
+     select * from "t_temperature_records"
+   </isEqual>
+</select> 
+<!--添加新温度  -->
+  <insert id="insertTemperatureRecord" parameterClass="com.model.TemperatureRecord">
+    <![CDATA[insert into "t_temperature_records"("patient_id","time_day","time_hour_2","time_hour_6","time_hour_10","time_hour_14","time_hour_18","time_hour_22","days_after_operation","pulse","breath","blood_pressure","stool_frequency","fluid_in","fluid_out","fluid_sum","weight","height","allergen","urinary_volume","create_time")
+       values(#patient_id#,TO_DATE(#time_day#, 'SYYYY-MM-DD'),#time_hour_2#,#time_hour_6#,#time_hour_10#,#time_hour_14#,#time_hour_18#,#time_hour_22#,#days_after_operation#,#pulse#,#breath#,#blood_pressure#,#stool_frequency#,#fluid_in#,#fluid_out#,#fluid_sum#,#weight#,#height#,#allergen#,#urinary_volume#,TO_DATE(#create_time#, 'SYYYY-MM-DD HH24:MI:SS'))]]>
+  </insert>
+  
+<!--跟新温度信息  -->
+  <update id="updateTemperatureRecord" parameterClass="com.model.TemperatureRecord">
+     update "t_temperature_records" 
+     <dynamic prepend="set">
+         <isPropertyAvailable property="time_day">
+             <isNotNull property="time_day" prepend=" ,">
+                 "time_day"=TO_DATE(#time_day#, 'SYYYY-MM-DD')
+             </isNotNull>
+         </isPropertyAvailable>
+         <isPropertyAvailable property="time_hour_2">
+             <isNotNull property="time_hour_2" prepend=" ,">
+                 "time_hour_2"=#time_hour_2#
+             </isNotNull>
+         </isPropertyAvailable>
+         <isPropertyAvailable property="time_hour_6">
+             <isNotNull property="time_hour_6" prepend=" ,">
+                 "time_hour_6"=#time_hour_6#
+             </isNotNull>
+         </isPropertyAvailable>
+         <isPropertyAvailable property="time_hour_10">
+             <isNotNull property="time_hour_10" prepend=" ,">
+                 "time_hour_10"=#time_hour_10#
+             </isNotNull>
+         </isPropertyAvailable>
+         <isPropertyAvailable property="time_hour_14">
+             <isNotNull property="time_hour_14" prepend=" ,">
+                 "time_hour_14"=#time_hour_14#
+             </isNotNull>
+         </isPropertyAvailable>
+         <isPropertyAvailable property="time_hour_18">
+             <isNotNull property="time_hour_18" prepend=" ,">
+                 "time_hour_18"=#time_hour_18#
+             </isNotNull>
+         </isPropertyAvailable>
+         <isPropertyAvailable property="time_hour_22">
+             <isNotNull property="time_hour_22" prepend=" ,">
+                 "time_hour_22"=#time_hour_22#
+             </isNotNull>
+         </isPropertyAvailable>
+         <isPropertyAvailable property="days_after_operation">
+             <isNotNull property="days_after_operation" prepend=" ,">
+                 "days_after_operation"=#days_after_operation#
+             </isNotNull>
+         </isPropertyAvailable>
+         <isPropertyAvailable property="pulse">
+             <isNotNull property="pulse" prepend=" ,">
+                 "pulse"=#pulse#
+             </isNotNull>
+         </isPropertyAvailable>
+         <isPropertyAvailable property="breath">
+             <isNotNull property="breath" prepend=" ,">
+                 "breath"=#breath#
+             </isNotNull>
+         </isPropertyAvailable>
+         <isPropertyAvailable property="blood_pressure">
+             <isNotNull property="blood_pressure" prepend=" ,">
+                 "blood_pressure"=#blood_pressure#
+             </isNotNull>
+         </isPropertyAvailable>
+         <isPropertyAvailable property="stool_frequency">
+             <isNotNull property="stool_frequency" prepend=" ,">
+                 "stool_frequency"=#stool_frequency#
+             </isNotNull>
+         </isPropertyAvailable>
+         <isPropertyAvailable property="fluid_in">
+             <isNotNull property="fluid_in" prepend=" ,">
+                 "fluid_in"=#fluid_in#
+             </isNotNull>
+         </isPropertyAvailable>
+         <isPropertyAvailable property="fluid_out">
+             <isNotNull property="fluid_out" prepend=" ,">
+                 "fluid_out"=#fluid_out#
+             </isNotNull>
+         </isPropertyAvailable>
+         <isPropertyAvailable property="fluid_sum">
+             <isNotNull property="fluid_sum" prepend=" ,">
+                 "fluid_sum"=#fluid_sum#
+             </isNotNull>
+         </isPropertyAvailable>
+         <isPropertyAvailable property="weight">
+             <isNotNull property="weight" prepend=" ,">
+                 "weight"=#weight#
+             </isNotNull>
+         </isPropertyAvailable>
+         <isPropertyAvailable property="height">
+             <isNotNull property="height" prepend=" ,">
+                 "height"=#height#
+             </isNotNull>
+         </isPropertyAvailable>
+         <isPropertyAvailable property="allergen">
+             <isNotNull property="allergen" prepend=" ,">
+                 "allergen"=#allergen#
+             </isNotNull>
+         </isPropertyAvailable>
+         <isPropertyAvailable property="urinary_volume">
+             <isNotNull property="urinary_volume" prepend=" ,">
+                 "urinary_volume"=#urinary_volume#
+             </isNotNull>
+         </isPropertyAvailable>
+     </dynamic>
+     <!-- 引用更新条件 -->
+     <include refid="whereByTRId"/>
+  </update>
+  <!-- 删除温度 -->
+  <delete id="deleteTemperatureRecord" parameterClass="com.model.TemperatureRecord">
+      <![CDATA[delete from "t_temperature_records"  ]]>
+      <include refid="whereByTRId"/>
+  </delete>
+</sqlMap>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+   "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+  <!-- 对象属性与表映射 -->
+  <resultMap class="com.model.AdmDepartment" id="RM_AdmDepartment">
+     <result property="id" column="Id"/>
+     <result property="name" column="Name"/>
+     <result property="inpatient_area_id" column="Inpatient_area_id"/>
+     <result property="common_nurse_id" column="Common_nurse_id"/>
+     <result property="department_direct_id" column="Department_direct_id"/>
+     <result property="create_time" column="Create_time"/>
+  </resultMap>
+  <!--设置where主键的查询条件 -->
+  <sql id="whereByDptId">
+     <dynamic prepend=" where ">
+       <isPropertyAvailable property="id">
+          <isNotNull property="id" prepend=" and ">
+            "Id" = #id#
+          </isNotNull>
+       </isPropertyAvailable>
+     </dynamic>
+  </sql>
+<!-- 查询科室-->
+<select id="selectAdmDepartment" parameterClass="com.model.AdmDepartment" resultMap="RM_AdmDepartment">
+    <![CDATA[select * from  "t_adm_department"]]>
+      <include refid="whereByDptId"/>
+</select>
+<!-- 模糊查询科室列表-->
+<select id="selectAdmDepartmentList" parameterClass="com.model.AdmDepartment" resultMap="RM_AdmDepartment">
+    <![CDATA[select * from  "t_adm_department" where "Id" like '%id%']]>
+</select>
+<!-- 按页查询科室 -->
+ <select id="selectAdmDepartmentByPage" parameterClass="com.model.Page" resultMap="RM_AdmDepartment">
+   <isNotEqual property="rowLength" compareValue="-1">
+     <![CDATA[select * from (select A.*,ROWNUM from (select * from "t_adm_department") A where ROWNUM < #rowNumEnd# ) where ROWNUM >= #rowNumStart#]]>
+   </isNotEqual>
+    <isEqual property="rowLength" compareValue="-1">
+     select * from "t_adm_department"
+   </isEqual>
+</select> 
+<!--添加新科室  -->
+  <insert id="insertAdmDepartment" parameterClass="com.model.AdmDepartment">
+    <![CDATA[insert into "t_adm_department"("Name","Inpatient_area_id","Department_direct_id","Common_nurse_id","Create_time")
+       values(#name#,#inpatient_area_id#,#department_direct_id#,#common_nurse_id#,TO_DATE( #create_time#, 'SYYYY-MM-DD HH24:MI:SS'))]]>
+  </insert>
+  
+<!--跟新科室信息  -->
+  <update id="updateAdmDepartment" parameterClass="com.model.AdmDepartment">
+     update "t_adm_department" 
+     <dynamic prepend="set">
+         <isPropertyAvailable property="name">
+            <isNotNull property="name" prepend=" ,">
+               "Name"=#name#
+            </isNotNull>
+        </isPropertyAvailable>
+         <isPropertyAvailable property="inpatient_area_id">
+            <isNotNull property="inpatient_area_id" prepend=" ,">
+               "Inpatient_area_id"=#inpatient_area_id#
+            </isNotNull>
+        </isPropertyAvailable>
+         <isPropertyAvailable property="department_direct_id">
+            <isNotNull property="department_direct_id" prepend=" ,">
+               "Department_direct_id"=#department_direct_id#
+            </isNotNull>
+        </isPropertyAvailable>
+         <isPropertyAvailable property="common_nurse_id">
+             <isNotNull property="common_nurse_id" prepend=" ,">
+                 "Common_nurse_id"=#common_nurse_id#
+             </isNotNull>
+         </isPropertyAvailable>
+        <!-- Create_time 字段不进行更新 -->
+     </dynamic>
+     <!-- 引用更新条件 -->
+     <include refid="whereByDptId"/>
+  </update>
+  <!-- 删除科室 -->
+  <delete id="deleteAdmDepartment" parameterClass="com.model.AdmDepartment">
+      <![CDATA[delete from "t_adm_department"  ]]>
+      <include refid="whereByDptId"/>
+  </delete>
+</sqlMap>

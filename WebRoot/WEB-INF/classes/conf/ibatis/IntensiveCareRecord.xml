@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+   "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+  <!-- 对象属性与表映射 -->
+  <resultMap class="com.model.IntensiveCareRecord" id="RM_IntensiveCareRecord">
+      <result property="id" column="id"/>
+      <result property="patient_id" column="patient_id"/>
+      <result property="date" column="date"/>
+      <result property="temperature" column="temperature"/>
+      <result property="pulse" column="pulse"/>
+      <result property="breath" column="breath"/>
+      <result property="blood_pressure" column="blood_pressure"/>
+      <result property="oxygen_saturation" column="oxygen_saturation"/>
+      <result property="input_amount_liquid" column="input_amount_liquid"/>
+      <result property="input_amount_other" column="input_amount_other"/>
+      <result property="output_amount_urine" column="output_amount_urine"/>
+      <result property="output_amount_other" column="output_amount_other"/>
+      <result property="condition_and_treatment" column="condition_and_treatment"/>
+      <result property="recorder_id" column="recorder_id"/>
+      
+  </resultMap>
+  <!--设置where主键的查询条件 -->
+  <sql id="whereByIntensiveCareRecordId">
+     <dynamic prepend=" where ">
+       <isPropertyAvailable property="id">
+          <isNotNull property="id" prepend=" and ">
+            "id" = #id#
+          </isNotNull>
+       </isPropertyAvailable>
+     </dynamic>
+  </sql>
+  
+  <!--设置where病案号的查询条件 -->
+  <sql id="whereByIntensiveCareRecordPatientId">
+     <dynamic prepend=" where ">
+       <isPropertyAvailable property="patient_id">
+          <isNotNull property="patient_id" prepend=" and ">
+            "patient_id" = #patient_id#
+          </isNotNull>
+       </isPropertyAvailable>
+     </dynamic>
+  </sql>
+<!-- 查询重症护理记录(单条记录,按病案号)-->
+<select id="selectIntensiveCareRecord" parameterClass="com.model.IntensiveCareRecord" resultMap="RM_IntensiveCareRecord">
+    <![CDATA[select * from  "t_intensive_care_record"]]>
+      <include refid="whereByIntensiveCareRecordPatientId"/>
+</select>
+<!-- 模糊查询血糖含量表(按病案号)-->
+<!-- <select id="selectIntensiveCareRecordList" parameterClass="com.model.IntensiveCareRecord" resultMap="RM_IntensiveCareRecord">
+    <![CDATA[select * from  "t_intensive_care_record"]]>
+    <include refid="whereByIntensiveCareRecordPatientId"/>
+</select> -->
+<!-- 分页查询重症护理记录 -->
+ <select id="selectIntensiveCareRecordByPage" parameterClass="java.util.HashMap" resultMap="RM_IntensiveCareRecord">
+     <isNotEqual property="rowLength" compareValue="-1">
+     <![CDATA[select * from (select A.*,ROWNUM RN from (select E.* from "t_intensive_care_record" E WHERE E."patient_id"=#patient_id#) A where ROWNUM < #rowNumEnd# ) where RN >= #rowNumStart#]]>
+     </isNotEqual>
+     <isEqual property="rowLength" compareValue="-1">
+         select * from "t_intensive_care_record"
+     </isEqual>
+</select> 
+<!--添加新重症护理记录  -->
+  <insert id="insertIntensiveCareRecord" parameterClass="com.model.IntensiveCareRecord">
+    <![CDATA[insert into "t_intensive_care_record"("patient_id","date","temperature","pulse","breath","blood_pressure","oxygen_saturation","input_amount_liquid","input_amount_other","output_amount_urine","output_amount_other","condition_and_treatment","recorder_id")
+       values(#patient_id#,TO_DATE(#date#, 'SYYYY-MM-DD HH24:MI:SS'),#temperature#,#pulse#,#breath#,#blood_pressure#,#oxygen_saturation#,#input_amount_liquid#,#input_amount_other#,#output_amount_urine#,#output_amount_other#,#condition_and_treatment#,#recorder_id#)]]>
+  </insert>
+<!--更新重症护理记录  -->
+ <update id="updateIntensiveCareRecord" parameterClass="com.model.IntensiveCareRecord">
+     update "t_intensive_care_record" 
+     <dynamic prepend="set">
+      <isPropertyAvailable property="patient_id">
+          <isNotNull property="patient_id" prepend=" ,">
+              "patient_id"=#patient_id#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="date">
+          <isNotNull property="date" prepend=" ,">
+              "date"=TO_DATE(#date#, 'SYYYY-MM-DD HH24:MI:SS')
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="temperature">
+          <isNotNull property="temperature" prepend=" ,">
+              "temperature"=#temperature#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="pulse">
+          <isNotNull property="pulse" prepend=" ,">
+              "pulse"=#pulse#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="breath">
+          <isNotNull property="breath" prepend=" ,">
+              "breath"=#breath#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="blood_pressure">
+          <isNotNull property="blood_pressure" prepend=" ,">
+              "blood_pressure"=#blood_pressure#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="oxygen_saturation">
+          <isNotNull property="oxygen_saturation" prepend=" ,">
+              "oxygen_saturation"=#oxygen_saturation#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="input_amount_liquid">
+          <isNotNull property="input_amount_liquid" prepend=" ,">
+              "input_amount_liquid"=#input_amount_liquid#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="input_amount_other">
+          <isNotNull property="input_amount_other" prepend=" ,">
+              "input_amount_other"=#input_amount_other#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="output_amount_urine">
+          <isNotNull property="output_amount_urine" prepend=" ,">
+              "output_amount_urine"=#output_amount_urine#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="output_amount_other">
+          <isNotNull property="output_amount_other" prepend=" ,">
+              "output_amount_other"=#output_amount_other#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="condition_and_treatment">
+          <isNotNull property="condition_and_treatment" prepend=" ,">
+              "condition_and_treatment"=#condition_and_treatment#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="recorder_id">
+          <isNotNull property="recorder_id" prepend=" ,">
+              "recorder_id"=#recorder_id#
+          </isNotNull>
+      </isPropertyAvailable>
+     </dynamic>
+     <include refid="whereByIntensiveCareRecordId"/>
+  </update>
+    <!--删除重症护理记录-->
+    <delete id="deleteIntensiveCareRecord" parameterClass="com.model.IntensiveCareRecord">
+        <![CDATA[delete from "t_intensive_care_record" ]]>
+        <include refid="whereByIntensiveCareRecordId"/>
+    </delete>
+</sqlMap>
+

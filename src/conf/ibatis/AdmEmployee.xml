@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+   "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+  <!-- 对象属性与表映射 -->
+  <resultMap class="com.model.AdmEmployee" id="RM_AdmEmployee">
+     <result property="id" column="Id"/>
+     <result property="userNumber" column="User_number"/>
+     <result property="password" column="Password"/>
+     <result property="realName" column="Real_name"/>
+     <result property="sex" column="Sex"/>
+     <result property="roolId" column="Rool_id"/>
+     <result property="roolName" column="Rool_name"/>
+     <result property="createTime" column="Create_time"/>
+     <result property="updateTime" column="Update_time"/>
+  </resultMap>
+  <!-- 设置多条件模糊查询 -->
+  <sql id="whereByAdmEmployee">
+     <dynamic prepend=" where ">
+       <isPropertyAvailable property="userNumber">
+          <isNotNull property="userNumber" prepend=" and ">
+            "User_number" like '%$userNumber$%'
+          </isNotNull>
+       </isPropertyAvailable>
+     </dynamic>
+  </sql>
+  
+  <!--设置where主键的查询条件 -->
+  <sql id="whereByUserNumber">
+     <dynamic prepend=" where ">
+       <isPropertyAvailable property="userNumber">
+          <isNotNull property="userNumber" prepend=" and ">
+             "User_number" = #userNumber#  
+          </isNotNull>
+       </isPropertyAvailable>
+     </dynamic>
+  </sql>
+  <!-- 设置按页查询终止范围(不包括该记录)-->
+<sql id="whereRowNumEnd">
+  <dynamic prepend=" where ">
+     <isPropertyAvailable property="rowNumEnd">
+        <isNotNull property="rowNumEnd" prepend=" and ">
+             <![CDATA[ROWNUM < #rowNumEnd#]]>
+          </isNotNull>
+     </isPropertyAvailable>
+  </dynamic>
+</sql>
+  <!-- 设置按页查询起始范围(包括该记录)-->
+<sql id="whereRowNumStart">
+  <dynamic prepend=" where ">
+     <isPropertyAvailable property="rowNumStart">
+        <isNotNull property="rowNumStart" prepend=" and ">
+             <![CDATA[ROWNUM >= #rowNumStart#]]>
+          </isNotNull>
+     </isPropertyAvailable>
+   </dynamic>
+</sql>
+<!-- 查询用户-->
+<select id="selectAdmEmployee" parameterClass="com.model.AdmEmployee" resultMap="RM_AdmEmployee">
+    <![CDATA[select "t_adm_employee".*,"t_role"."Rool_name" from  "t_adm_employee","t_role" WHERE   "User_number" = #userNumber#  AND  "t_adm_employee"."Rool_id"="t_role"."Id"]]>
+</select>
+<!-- 模糊查询用户列表-->
+<select id="selectAdmEmployeeList" parameterClass="com.model.AdmEmployee" resultMap="RM_AdmEmployee">
+    <![CDATA[select "t_adm_employee".*,"t_role"."Rool_name" from "t_adm_employee","t_role" WHERE "User_number" like '%$userNumber$%' AND "t_adm_employee"."Rool_id"="t_role"."Id" ]]>
+</select>
+<!-- 按页查询用户列表 -->
+<select id="selectAdmEmployeePage" parameterClass="com.model.Page" resultMap="RM_AdmEmployee">
+   <isNotEqual property="rowLength" compareValue="-1">
+     <![CDATA[select B.*,"t_role"."Rool_name" from (select A.*,ROWNUM from (select * from "t_adm_employee") A where ROWNUM < #rowNumEnd# ) B,"t_role" where ROWNUM >= #rowNumStart# AND B."Rool_id"="t_role"."Id" ]]>
+   </isNotEqual>
+    <isEqual property="rowLength" compareValue="-1">
+        select "t_adm_employee".*,"t_role"."Rool_name" from  "t_adm_employee","t_role" WHERE    "t_adm_employee"."Id"="t_role"."Id"
+   </isEqual>
+   
+</select>
+<!--添加新用户  -->
+  <insert id="insertAdmEmployee" parameterClass="com.model.AdmEmployee">
+    <![CDATA[insert into "t_adm_employee"("User_number","Password","Real_name","Sex","Rool_id","Create_time","Update_time") 
+       values(#userNumber#,#password#,#realName#,#sex#,#roolId#,TO_DATE( #createTime#, 'SYYYY-MM-DD HH24:MI:SS'),TO_DATE( #updateTime# , 'SYYYY-MM-DD HH24:MI:SS'))]]>
+  </insert>
+  
+<!--跟新用户信息  -->
+  <update id="updateAdmEmployee" parameterClass="com.model.AdmEmployee">
+     update "t_adm_employee" 
+     <dynamic prepend="set">
+        <isPropertyAvailable property="userNumber">
+            <isNotNull property="userNumber" prepend=" ,">
+               "User_number"=#userNumber#
+            </isNotNull>
+        </isPropertyAvailable>
+         <isPropertyAvailable property="password">
+            <isNotNull property="password" prepend=" ,">
+               "Password"=#password#
+            </isNotNull>
+        </isPropertyAvailable>
+         <isPropertyAvailable property="realName">
+            <isNotNull property="realName" prepend=" ,">
+               "Real_name"=#realName#
+            </isNotNull>
+        </isPropertyAvailable>
+         <isPropertyAvailable property="sex">
+            <isNotNull property="sex" prepend=" ,">
+               "Sex"=#sex#
+            </isNotNull>
+        </isPropertyAvailable>
+         <isPropertyAvailable property="roolId">
+            <isNotNull property="roolId" prepend=" ,">
+               "Rool_id"=#roolId#
+            </isNotNull>
+        </isPropertyAvailable>
+        <!-- Create_time 不进行更新 -->
+         <isPropertyAvailable property="updateTime">
+            <isNotNull property="updateTime" prepend=" ,">
+               "Update_time"=TO_DATE( #updateTime# , 'SYYYY-MM-DD HH24:MI:SS')
+            </isNotNull>
+        </isPropertyAvailable>
+     </dynamic>
+     <!-- 引用更新条件 -->
+     <include refid="whereByUserNumber"/>
+  </update>
+  <!-- 删除用户 -->
+  <delete id="deleteAdmEmployee" parameterClass="com.model.AdmEmployee">
+      <![CDATA[delete from "t_adm_employee"  ]]>
+      <include refid="whereByUserNumber"/>
+  </delete>
+</sqlMap>
+
+<!-- 	
+    private  long id;
+	private  String userNumber;
+	private  String password;
+	private  String realName;
+	private  String sex;
+	private  long  roolId;
+	private  String createTime;
+	private  String updateTime; -->

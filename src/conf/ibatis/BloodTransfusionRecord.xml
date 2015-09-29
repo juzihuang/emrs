@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+   "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+  <!-- 对象属性与表映射 -->
+  <resultMap class="com.model.BloodTransfusionRecord" id="RM_BloodTransfusionRecord">
+      <result property="id" column="id"/>
+      <result property="patient_id" column="patient_id"/>
+      <result property="history_blood_trans" column="history_blood_trans"/>
+      <result property="pregnancies" column="pregnancies"/>
+      <result property="labors" column="labors"/>
+      <result property="patient_blood_trans_type" column="patient_blood_trans_type"/>
+      <result property="donor_name" column="donor_name"/>
+      <result property="donor_blood_type" column="donor_blood_type"/>
+      <result property="donor_blood_num" column="donor_blood_num"/>
+      <result property="donor_blood_breed" column="donor_blood_breed"/>
+      <result property="donor_blood_volume" column="donor_blood_volume"/>
+      <result property="recheck_blood_result" column="recheck_blood_result"/>
+      <result property="cross_match_test_and_result" column="cross_match_test_and_result"/>
+      <result property="irregular_antibody_screen_res" column="irregular_antibody_screen_res"/>
+      <result property="other_examination_result" column="other_examination_result"/>
+      <result property="rechecker_id" column="rechecker_id"/>
+      <result property="cross_matcher_id" column="cross_matcher_id"/>
+      <result property="blood_pickup_id" column="blood_pickup_id"/>
+      <result property="blood_get_id" column="blood_get_id"/>
+      <result property="pickup_date" column="pickup_date"/>
+      
+  </resultMap>
+  <!--设置where主键的查询条件 -->
+  <sql id="whereByBloodTransfusionRecordId">
+     <dynamic prepend=" where ">
+       <isPropertyAvailable property="id">
+          <isNotNull property="id" prepend=" and ">
+            "id" = #id#
+          </isNotNull>
+       </isPropertyAvailable>
+     </dynamic>
+  </sql>
+  
+  <!--设置where病案号的查询条件 -->
+  <sql id="whereByBloodTransfusionRecordPatientId">
+     <dynamic prepend=" where ">
+       <isPropertyAvailable property="patient_id">
+          <isNotNull property="patient_id" prepend=" and ">
+            "patient_id" = #patient_id#
+          </isNotNull>
+       </isPropertyAvailable>
+     </dynamic>
+  </sql>
+<!-- 查询输血记录(单条记录,按病案号)-->
+<select id="selectBloodTransfusionRecord" parameterClass="com.model.BloodTransfusionRecord" resultMap="RM_BloodTransfusionRecord">
+    <![CDATA[select * from  "t_blood_trans_record"]]>
+      <include refid="whereByBloodTransfusionRecordPatientId"/>
+</select>
+<!-- 模糊查询输血记录表(按病案号)-->
+<!-- <select id="selectBloodTransfusionRecordList" parameterClass="com.model.BloodTransfusionRecord" resultMap="RM_BloodTransfusionRecord">
+    <![CDATA[select * from  "t_blood_trans_record"]]>
+    <include refid="whereByBloodTransfusionRecordPatientId"/>
+</select> -->
+<!-- 分页查询输血记录 -->
+ <select id="selectBloodTransfusionRecordByPage" parameterClass="java.util.HashMap" resultMap="RM_BloodTransfusionRecord">
+     <isNotEqual property="rowLength" compareValue="-1">
+     <![CDATA[select * from (select A.*,ROWNUM RN from (select E.* from "t_blood_trans_record" E WHERE E."patient_id"=#patient_id#) A where ROWNUM < #rowNumEnd# ) where RN >= #rowNumStart#]]>
+     </isNotEqual>
+     <isEqual property="rowLength" compareValue="-1">
+         select * from "t_blood_trans_record"
+     </isEqual>
+</select> 
+<!--添加输血记录  -->
+  <insert id="insertBloodTransfusionRecord" parameterClass="com.model.BloodTransfusionRecord">
+    <![CDATA[insert into "t_blood_trans_record"("patient_id","history_blood_trans","pregnancies","labors","patient_blood_trans_type","donor_name","donor_blood_type","donor_blood_num","donor_blood_breed","donor_blood_volume","recheck_blood_result","cross_match_test_and_result","irregular_antibody_screen_res","other_examination_result","rechecker_id","cross_matcher_id","blood_pickup_id","blood_get_id","pickup_date")
+       values(#patient_id#,#history_blood_trans#,#pregnancies#,#labors#,#patient_blood_trans_type#,#donor_name#,#donor_blood_type#,#donor_blood_num#,#donor_blood_breed#,#donor_blood_volume#,#recheck_blood_result#,#cross_match_test_and_result#,#irregular_antibody_screen_res#,#other_examination_result#,#rechecker_id#,#cross_matcher_id#,#blood_pickup_id#,#blood_get_id#,TO_DATE(#pickup_date#, 'SYYYY-MM-DD HH24:MI'))]]>
+  </insert>
+<!--更新输血记录  -->
+ <update id="updateBloodTransfusionRecord" parameterClass="com.model.BloodTransfusionRecord">
+     update "t_blood_trans_record" 
+     <dynamic prepend="set">
+      <isPropertyAvailable property="patient_id">
+          <isNotNull property="patient_id" prepend=" ,">
+              "patient_id"=#patient_id#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="history_blood_trans">
+          <isNotNull property="history_blood_trans" prepend=" ,">
+              "history_blood_trans"=#history_blood_trans#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="pregnancies">
+          <isNotNull property="pregnancies" prepend=" ,">
+              "pregnancies"=#pregnancies#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="labors">
+          <isNotNull property="labors" prepend=" ,">
+              "labors"=#labors#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="patient_blood_trans_type">
+          <isNotNull property="patient_blood_trans_type" prepend=" ,">
+              "patient_blood_trans_type"=#patient_blood_trans_type#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="donor_name">
+          <isNotNull property="donor_name" prepend=" ,">
+              "donor_name"=#donor_name#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="donor_blood_type">
+          <isNotNull property="donor_blood_type" prepend=" ,">
+              "donor_blood_type"=#donor_blood_type#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="donor_blood_num">
+          <isNotNull property="donor_blood_num" prepend=" ,">
+              "donor_blood_num"=#donor_blood_num#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="donor_blood_breed">
+          <isNotNull property="donor_blood_breed" prepend=" ,">
+              "donor_blood_breed"=#donor_blood_breed#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="donor_blood_volume">
+          <isNotNull property="donor_blood_volume" prepend=" ,">
+              "donor_blood_volume"=#donor_blood_volume#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="recheck_blood_result">
+          <isNotNull property="recheck_blood_result" prepend=" ,">
+              "recheck_blood_result"=#recheck_blood_result#
+          </isNotNull>
+      </isPropertyAvailable>
+      
+      <isPropertyAvailable property="irregular_antibody_screen_res">
+          <isNotNull property="irregular_antibody_screen_res" prepend=" ,">
+              "irregular_antibody_screen_res"=#irregular_antibody_screen_res#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="other_examination_result">
+          <isNotNull property="other_examination_result" prepend=" ,">
+              "other_examination_result"=#other_examination_result#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="rechecker_id">
+          <isNotNull property="rechecker_id" prepend=" ,">
+              "rechecker_id"=#rechecker_id#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="cross_matcher_id">
+          <isNotNull property="cross_matcher_id" prepend=" ,">
+              "cross_matcher_id"=#cross_matcher_id#
+          </isNotNull>
+      </isPropertyAvailable>
+      
+      <isPropertyAvailable property="blood_pickup_id">
+          <isNotNull property="blood_pickup_id" prepend=" ,">
+              "blood_pickup_id"=#blood_pickup_id#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="blood_get_id">
+          <isNotNull property="blood_get_id" prepend=" ,">
+              "blood_get_id"=#blood_get_id#
+          </isNotNull>
+      </isPropertyAvailable>
+      <isPropertyAvailable property="pickup_date">
+          <isNotNull property="pickup_date" prepend=" ,">
+              "pickup_date"=TO_DATE(#pickup_date#,'SYYYY-MM-DD HH24:MI')
+          </isNotNull>
+      </isPropertyAvailable>
+     </dynamic>
+     <include refid="whereByBloodTransfusionRecordId"/>
+  </update>
+    <!--删除输血记录-->
+    <delete id="deleteBloodTransfusionRecord" parameterClass="com.model.BloodTransfusionRecord">
+        <![CDATA[delete from "t_blood_trans_record" ]]>
+        <include refid="whereByBloodTransfusionRecordId"/>
+    </delete>
+</sqlMap>
+

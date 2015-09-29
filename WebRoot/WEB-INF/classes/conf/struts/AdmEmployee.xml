@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	 <package name="admEmployee" extends="emrs-default" namespace="/">
+        <action name="admEmployee/*" class="com.action.AdmEmployeeAction" method="{1}">
+            <result type="json" name="success" >
+                 <param name="callbackParameter">callback</param>
+                 <param name="ignoreHierarchy">false</param> 
+                 <param name="includeProperties">errorCode,errorMessage,sEcho,iTotalRecords,iTotalDisplayRecords,result.*</param>
+                 <param name="excludeNullProperties">true</param>
+            </result>
+        </action>
+    </package>
+</struts>

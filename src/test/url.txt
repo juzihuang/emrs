@@ -1,0 +1,10 @@
+http://10.103.30.138:8080/emrs/login/getAdmEmployeeList?jsonParams={"userNumber":"120333"}
+http://10.103.30.138:8080/emrs/login/getAdmEmployee?jsonParams={"userNumber":"x"}
+http://10.103.30.138:8080/emrs/login/getAdmEmployeeList?jsonParams={"userNumber":"1","password":"1","realName":"1","sex":"1","roolId":1,"createTime":"2015-08-10 14:20:54","updateTime":"2015-08-10 14:20:54"}
+http://10.103.30.138:8080/emrs/login/addAdmEmpolyee?jsonParams={"userNumber":"3","password":"111111","realName":"1","sex":"1","roolId":1,"createTime":"2015-08-10 14:20:54","updateTime":"2015-08-10 14:20:54"}
+http://10.103.30.138:8080/emrs/login/getAdmEmployeeList?jsonParams={"sEcho":"0","iDisplayStart":"1","iDisplayLength":"2"}
+http://10.103.30.138:8080/emrs/login/deleteAdmEmpolyee?jsonParams={"userNumber":"55"}
+http://10.103.30.138:8080/emrs/login/updateAdmEmpolyee?jsonParams={"userNumber":"3","password":"111111","realName":"1","sex":"1","roolId":1,"createTime":"2015-08-10 14:20:54","updateTime":"2015-08-10 14:20:54"}
+病区测试
+http://10.103.30.138:8080/emrs/inpatientArea/addInpatientArea?jsonParams={%22name%22:%22dgp%22,%22code%22:%2211%22,%22area_direct_id%22:%222%22,%22big_nurse_id%22:%2212%22}
+

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!--  设置上传文件的大小的限制，约10G -->
+	<constant name="struts.multipart.maxSize" value="10240000000"></constant>
+	<constant name="struts.custom.i18n.resources" value="applicationResource"></constant>
+	<constant name="struts.locale" value="zh_CN" />
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+	<constant name="struts.mapper.alwaysSelectFullNamespace" value="false" />
+	<constant name="struts.enable.SlashesInActionNames" value="true"/>
+    <constant name="struts.devMode" value="false" />
+    <constant name="struts.ognl.allowStaticMethodAccess" value="true"/>
+
+
+	<!-- default package -->
+	<package name="emrs-default" extends="json-default" namespace="/">
+		<interceptors>
+			<interceptor name="exception"
+				class="com.common.interceptor.ExceptionHandleInterceptor">
+			</interceptor>
+			<interceptor-stack name="emrsDefaultStack">
+				<interceptor-ref name="exception"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="emrsDefaultStack"></default-interceptor-ref>
+	</package>
+	<!--struts 配置文档  -->
+	<include file="conf/struts/*.xml"/>
+</struts>
