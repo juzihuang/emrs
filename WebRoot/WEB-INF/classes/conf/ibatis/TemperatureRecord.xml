@@ -7,15 +7,21 @@
       <result property="id" column="id"/>
       <result property="patient_id" column="patient_id"/>
       <result property="time_day" column="time_day"/>
-      <result property="time_hour_2" column="time_hour_2"/>
-      <result property="time_hour_6" column="time_hour_6"/>
-      <result property="time_hour_10" column="time_hour_10"/>
-      <result property="time_hour_14" column="time_hour_14"/>
-      <result property="time_hour_18" column="time_hour_18"/>
-      <result property="time_hour_22" column="time_hour_22"/>
+      <result property="time_hour_2_breath" column="time_hour_2_breath"/>
+      <result property="time_hour_6_breath" column="time_hour_6_breath"/>
+      <result property="time_hour_10_breath" column="time_hour_10_breath"/>
+      <result property="time_hour_14_breath" column="time_hour_14_breath"/>
+      <result property="time_hour_18_breath" column="time_hour_18_breath"/>
+      <result property="time_hour_22_breath" column="time_hour_22_breath"/>
+      <result property="time_hour_2_temperature" column="time_hour_2_temperature"/>
+      <result property="time_hour_6_temperature" column="time_hour_6_temperature"/>
+      <result property="time_hour_10_temperature" column="time_hour_10_temperature"/>
+      <result property="time_hour_14_temperature" column="time_hour_14_temperature"/>
+      <result property="time_hour_18_temperature" column="time_hour_18_temperature"/>
+      <result property="time_hour_22_temperature" column="time_hour_22_temperature"/>
       <result property="days_after_operation" column="days_after_operation"/>
       <result property="pulse" column="pulse"/>
-      <result property="breath" column="breath"/>
+     <!--  <result property="breath" column="breath"/> -->
       <result property="blood_pressure" column="blood_pressure"/>
       <result property="stool_frequency" column="stool_frequency"/>
       <result property="fluid_in" column="fluid_in"/>
@@ -53,8 +59,8 @@
 </select> 
 <!--添加新温度  -->
   <insert id="insertTemperatureRecord" parameterClass="com.model.TemperatureRecord">
-    <![CDATA[insert into "t_temperature_records"("patient_id","time_day","time_hour_2","time_hour_6","time_hour_10","time_hour_14","time_hour_18","time_hour_22","days_after_operation","pulse","breath","blood_pressure","stool_frequency","fluid_in","fluid_out","fluid_sum","weight","height","allergen","urinary_volume","create_time")
-       values(#patient_id#,TO_DATE(#time_day#, 'SYYYY-MM-DD'),#time_hour_2#,#time_hour_6#,#time_hour_10#,#time_hour_14#,#time_hour_18#,#time_hour_22#,#days_after_operation#,#pulse#,#breath#,#blood_pressure#,#stool_frequency#,#fluid_in#,#fluid_out#,#fluid_sum#,#weight#,#height#,#allergen#,#urinary_volume#,TO_DATE(#create_time#, 'SYYYY-MM-DD HH24:MI:SS'))]]>
+    <![CDATA[insert into "t_temperature_records"("patient_id","time_day","time_hour_2_temperature","time_hour_6_temperature","time_hour_10_temperature","time_hour_14_temperature","time_hour_18_temperature","time_hour_22_temperature","time_hour_2_breath","time_hour_6_breath","time_hour_10_breath","time_hour_14_breath","time_hour_18_breath","time_hour_22_breath","days_after_operation","pulse","blood_pressure","stool_frequency","fluid_in","fluid_out","fluid_sum","weight","height","allergen","urinary_volume","create_time")
+       values(#patient_id#,TO_DATE(#time_day#, 'SYYYY-MM-DD'),#time_hour_2_temperature#,#time_hour_6_temperature#,#time_hour_10_temperature#,#time_hour_14_temperature#,#time_hour_18_temperature#,#time_hour_22_temperature#,#time_hour_2_breath#,#time_hour_6_breath#,#time_hour_10_breath#,#time_hour_14_breath#,#time_hour_18_breath#,#time_hour_22_breath#,#days_after_operation#,#pulse#,#blood_pressure#,#stool_frequency#,#fluid_in#,#fluid_out#,#fluid_sum#,#weight#,#height#,#allergen#,#urinary_volume#,TO_DATE(#create_time#, 'SYYYY-MM-DD HH24:MI:SS'))]]>
   </insert>
   
 <!--跟新温度信息  -->
@@ -66,34 +72,64 @@
                  "time_day"=TO_DATE(#time_day#, 'SYYYY-MM-DD')
              </isNotNull>
          </isPropertyAvailable>
-         <isPropertyAvailable property="time_hour_2">
-             <isNotNull property="time_hour_2" prepend=" ,">
-                 "time_hour_2"=#time_hour_2#
+         <isPropertyAvailable property="time_hour_2_temperature">
+             <isNotNull property="time_hour_2_temperature" prepend=" ,">
+                 "time_hour_2_temperature"=#time_hour_2_temperature#
              </isNotNull>
          </isPropertyAvailable>
-         <isPropertyAvailable property="time_hour_6">
-             <isNotNull property="time_hour_6" prepend=" ,">
-                 "time_hour_6"=#time_hour_6#
+         <isPropertyAvailable property="time_hour_6_temperature">
+             <isNotNull property="time_hour_6_temperature" prepend=" ,">
+                 "time_hour_6_temperature"=#time_hour_6_temperature#
              </isNotNull>
          </isPropertyAvailable>
-         <isPropertyAvailable property="time_hour_10">
-             <isNotNull property="time_hour_10" prepend=" ,">
-                 "time_hour_10"=#time_hour_10#
+         <isPropertyAvailable property="time_hour_10_temperature">
+             <isNotNull property="time_hour_10_temperature" prepend=" ,">
+                 "time_hour_10_temperature"=#time_hour_10_temperature#
              </isNotNull>
          </isPropertyAvailable>
-         <isPropertyAvailable property="time_hour_14">
-             <isNotNull property="time_hour_14" prepend=" ,">
-                 "time_hour_14"=#time_hour_14#
+         <isPropertyAvailable property="time_hour_14_temperature">
+             <isNotNull property="time_hour_14_temperature" prepend=" ,">
+                 "time_hour_14_temperature"=#time_hour_14_temperature#
              </isNotNull>
          </isPropertyAvailable>
-         <isPropertyAvailable property="time_hour_18">
-             <isNotNull property="time_hour_18" prepend=" ,">
-                 "time_hour_18"=#time_hour_18#
+         <isPropertyAvailable property="time_hour_18_temperature">
+             <isNotNull property="time_hour_18_temperature" prepend=" ,">
+                 "time_hour_18_temperature"=#time_hour_18_temperature#
              </isNotNull>
          </isPropertyAvailable>
-         <isPropertyAvailable property="time_hour_22">
-             <isNotNull property="time_hour_22" prepend=" ,">
-                 "time_hour_22"=#time_hour_22#
+         <isPropertyAvailable property="time_hour_22_temperature">
+             <isNotNull property="time_hour_22_temperature" prepend=" ,">
+                 "time_hour_22_temperature"=#time_hour_22_temperature#
+             </isNotNull>
+         </isPropertyAvailable>
+         <isPropertyAvailable property="time_hour_2_breath">
+             <isNotNull property="time_hour_2_breath" prepend=" ,">
+                 "time_hour_2_breath"=#time_hour_2_breath#
+             </isNotNull>
+         </isPropertyAvailable>
+         <isPropertyAvailable property="time_hour_6_breath">
+             <isNotNull property="time_hour_6_breath" prepend=" ,">
+                 "time_hour_6_breath"=#time_hour_6_breath#
+             </isNotNull>
+         </isPropertyAvailable>
+         <isPropertyAvailable property="time_hour_10_breath">
+             <isNotNull property="time_hour_10_breath" prepend=" ,">
+                 "time_hour_10_breath"=#time_hour_10_breath#
+             </isNotNull>
+         </isPropertyAvailable>
+         <isPropertyAvailable property="time_hour_14_breath">
+             <isNotNull property="time_hour_14_breath" prepend=" ,">
+                 "time_hour_14_breath"=#time_hour_14_breath#
+             </isNotNull>
+         </isPropertyAvailable>
+         <isPropertyAvailable property="time_hour_18_breath">
+             <isNotNull property="time_hour_18_breath" prepend=" ,">
+                 "time_hour_18_breath"=#time_hour_18_breath#
+             </isNotNull>
+         </isPropertyAvailable>
+         <isPropertyAvailable property="time_hour_22_breath">
+             <isNotNull property="time_hour_22_breath" prepend=" ,">
+                 "time_hour_22_breath"=#time_hour_22_breath#
              </isNotNull>
          </isPropertyAvailable>
          <isPropertyAvailable property="days_after_operation">
@@ -106,11 +142,11 @@
                  "pulse"=#pulse#
              </isNotNull>
          </isPropertyAvailable>
-         <isPropertyAvailable property="breath">
+         <!-- <isPropertyAvailable property="breath">
              <isNotNull property="breath" prepend=" ,">
                  "breath"=#breath#
              </isNotNull>
-         </isPropertyAvailable>
+         </isPropertyAvailable> -->
          <isPropertyAvailable property="blood_pressure">
              <isNotNull property="blood_pressure" prepend=" ,">
                  "blood_pressure"=#blood_pressure#

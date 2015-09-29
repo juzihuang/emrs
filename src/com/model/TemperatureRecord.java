@@ -1,21 +1,27 @@
 package com.model;
 
 /**
- * Created by azhl on 2015/9/14.
+ * modified by hff on 2015/9/29.
  */
 public class TemperatureRecord {
     private String id;
     private String patient_id;
     private String time_day;
-    private float time_hour_2;
-    private float time_hour_6;
-    private float time_hour_10;
-    private float time_hour_14;
-    private float time_hour_18;
-    private float time_hour_22;
+    private float time_hour_2_temperature;
+    private float time_hour_6_temperature;
+    private float time_hour_10_temperature;
+    private float time_hour_14_temperature;
+    private float time_hour_18_temperature;
+    private float time_hour_22_temperature;
+    private float time_hour_2_breath;
+    private float time_hour_6_breath;
+    private float time_hour_10_breath;
+    private float time_hour_14_breath;
+    private float time_hour_18_breath;
+    private float time_hour_22_breath;
     private int days_after_operation;
     private int pulse;
-    private int breath;
+  //  private int breath;
     private String blood_pressure;
     private int stool_frequency;
     private float fluid_in;
@@ -51,54 +57,101 @@ public class TemperatureRecord {
         this.time_day = time_day;
     }
 
-    public float getTime_hour_2() {
-        return time_hour_2;
+    public float getTime_hour_2_temperature() {
+        return time_hour_2_temperature;
     }
 
-    public void setTime_hour_2(float time_hour_2) {
-        this.time_hour_2 = time_hour_2;
+    public void setTime_hour_2_temperature(float time_hour_2_temperature) {
+        this.time_hour_2_temperature = time_hour_2_temperature;
     }
 
-    public float getTime_hour_6() {
-        return time_hour_6;
+    public float getTime_hour_6_temperature() {
+        return time_hour_6_temperature;
     }
 
-    public void setTime_hour_6(float time_hour_6) {
-        this.time_hour_6 = time_hour_6;
+    public void setTime_hour_6_temperature(float time_hour_6_temperature) {
+        this.time_hour_6_temperature = time_hour_6_temperature;
     }
 
-    public float getTime_hour_10() {
-        return time_hour_10;
+    public float getTime_hour_10_temperature() {
+        return time_hour_10_temperature;
     }
 
-    public void setTime_hour_10(float time_hour_10) {
-        this.time_hour_10 = time_hour_10;
+    public void setTime_hour_10_temperature(float time_hour_10_temperature) {
+        this.time_hour_10_temperature = time_hour_10_temperature;
     }
 
-    public float getTime_hour_14() {
-        return time_hour_14;
+    public float getTime_hour_14_temperature() {
+        return time_hour_14_temperature;
     }
 
-    public void setTime_hour_14(float time_hour_14) {
-        this.time_hour_14 = time_hour_14;
+    public void setTime_hour_14_temperature(float time_hour_14_temperature) {
+        this.time_hour_14_temperature = time_hour_14_temperature;
     }
 
-    public float getTime_hour_18() {
-        return time_hour_18;
+    public float getTime_hour_18_temperature() {
+        return time_hour_18_temperature;
     }
 
-    public void setTime_hour_18(float time_hour_18) {
-        this.time_hour_18 = time_hour_18;
+    public void setTime_hour_18_temperature(float time_hour_18_temperature) {
+        this.time_hour_18_temperature = time_hour_18_temperature;
     }
 
-    public float getTime_hour_22() {
-        return time_hour_22;
+    public float getTime_hour_22_temperature() {
+        return time_hour_22_temperature;
     }
 
-    public void setTime_hour_22(float time_hour_22) {
-        this.time_hour_22 = time_hour_22;
+    public void setTime_hour_22_temperature(float time_hour_22_temperature) {
+        this.time_hour_22_temperature = time_hour_22_temperature;
+    }
+    public float getTime_hour_2_breath() {
+        return time_hour_2_breath;
     }
 
+    public void setTime_hour_2_breath(float time_hour_2_breath) {
+        this.time_hour_2_breath = time_hour_2_breath;
+    }
+
+    public float getTime_hour_6_breath() {
+        return time_hour_6_breath;
+    }
+
+    public void setTime_hour_6_breath(float time_hour_6_breath) {
+        this.time_hour_6_breath = time_hour_6_breath;
+    }
+
+    public float getTime_hour_10_breath() {
+        return time_hour_10_breath;
+    }
+
+    public void setTime_hour_10_breath(float time_hour_10_breath) {
+        this.time_hour_10_breath = time_hour_10_breath;
+    }
+
+    public float getTime_hour_14_breath() {
+        return time_hour_14_breath;
+    }
+
+    public void setTime_hour_14_breath(float time_hour_14_breath) {
+        this.time_hour_14_breath = time_hour_14_breath;
+    }
+
+    public float getTime_hour_18_breath() {
+        return time_hour_18_breath;
+    }
+
+    public void setTime_hour_18_breath(float time_hour_18_breath) {
+        this.time_hour_18_breath = time_hour_18_breath;
+    }
+
+    public float getTime_hour_22_breath() {
+        return time_hour_22_breath;
+    }
+
+    public void setTime_hour_22_breath(float time_hour_22_breath) {
+        this.time_hour_22_breath = time_hour_22_breath;
+    }
+    
     public int getDays_after_operation() {
         return days_after_operation;
     }
@@ -115,13 +168,13 @@ public class TemperatureRecord {
         this.pulse = pulse;
     }
 
-    public int getBreath() {
+ /*   public int getBreath() {
         return breath;
     }
 
     public void setBreath(int breath) {
         this.breath = breath;
-    }
+    }*/
 
     public String getBlood_pressure() {
         return blood_pressure;

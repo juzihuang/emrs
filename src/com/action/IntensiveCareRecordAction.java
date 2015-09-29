@@ -9,7 +9,6 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;

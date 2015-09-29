@@ -106,7 +106,7 @@ jsonParams={"id":"2"}
 
 体温表
 1、查询一条体温记录
-http://10.103.28.188:8080/emrs/temperatureRecord/getTemperatureRecord?jsonParams={%22id%22:%221%22}
+http://10.103.29.26:8080/emrs/temperatureRecord/getTemperatureRecord?jsonParams={%22id%22:%221%22}
 jsonParams={%22id%22:%221%22}
 成功返回值:{"errorCode":"0","result":{"id":"1","patient_id":"2","time_day":"2015-09-07 13:03:31","time_hour_2":2.0,"time_hour_6":2.0,"time_hour_10":2.0,"time_hour_14":2.0,"time_hour_18":2.0,"time_hour_22":2.0,"days_after_operation":2,"pulse":2,"breath":2,"blood_pressure":"2","stool_frequency":2,"fluid_in":2.0,"fluid_out":2.0,"fluid_sum":22.0,"weight":2.0,"height":2.0,"allergen":"2","urinary_volume":2.0,"create_time":"2015-09-15 11:04:29"}}
 失败返回值：{"errorCode":"1000"}
